@@ -71,3 +71,6 @@ app/config/env.*.js
 
 # Others
 ignite/
+.expo
+.expo-shared
+
