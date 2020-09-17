@@ -1,15 +1,17 @@
 import React, { useRef } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle, View, Dimensions, StyleSheet } from "react-native"
+import Animated, { multiply, divide } from "react-native-reanimated"
+import { useScrollHandler, interpolateColor } from "react-native-redash/lib/module/v1"
+import { HeaderTitle } from "@react-navigation/stack"
+
 import { Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
 import { Slider, SLIDER_HEIGHT } from "../../components/slider/slider"
 import { Subslide } from "../../components/slider/subslide"
-import Animated, { multiply } from "react-native-reanimated"
-import { useScrollHandler, interpolateColor } from "react-native-redash/lib/module/v1"
-import { HeaderTitle } from "@react-navigation/stack"
+import { Dot } from "../../components/slider/dot"
 
 const BORDER_RADIUS = 75
 const { width } = Dimensions.get("window")
@@ -23,9 +25,15 @@ const SLIDER: ViewStyle = {
 const FOOTER: ViewStyle = { flex: 1 }
 const FOOTER_CONTENT: ViewStyle = {
   flex: 1,
-  flexDirection: "row",
   backgroundColor: "white",
   borderTopLeftRadius: BORDER_RADIUS,
+}
+const PAGINATION: ViewStyle = {
+  ...StyleSheet.absoluteFillObject,
+  height: BORDER_RADIUS,
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "row",
 }
 /* === END CSS === */
 
@@ -64,7 +72,7 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
   // Pull in navigation via hook
   // const navigation = useNavigation()
   const scroll = useRef<Animated.ScrollView>(null)
-  const { scrollHandler, x, y } = useScrollHandler()
+  const { scrollHandler, x } = useScrollHandler()
   const backgroundColor = interpolateColor(x, {
     inputRange: slides.map((_, i) => i * width),
     outputRange: slides.map((slide) => slide.color),
@@ -87,26 +95,40 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
         </Animated.ScrollView>
       </Animated.View>
       <View style={FOOTER}>
-        <Animated.View style={[{ ...StyleSheet.absoluteFillObject }, { backgroundColor }]} />
-        <Animated.View
-          style={[
-            FOOTER_CONTENT,
-            { width: width * slides.length, flex: 1, transform: [{ translateX: multiply(x, -1) }] },
-          ]}
-        >
-          {slides.map(({ subtitle, description }, index) => (
-            <Subslide
-              key={index}
-              last={index === slides.length - 1}
-              {...{ subtitle, description }}
-              onPress={() => {
-                if (scroll.current) {
-                  scroll.current?.getNode().scrollTo({ x: width * (index + 1), animated: true })
-                }
-              }}
-            />
-          ))}
-        </Animated.View>
+        <Animated.View style={{ ...StyleSheet.absoluteFillObject, backgroundColor }} />
+        <View style={FOOTER_CONTENT}>
+          <View style={PAGINATION}>
+            {slides.map((_, index) => (
+              <Dot key={index} currentIndex={divide(x, width)} {...{ index }} />
+            ))}
+          </View>
+          <Animated.View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              width: width * slides.length,
+              transform: [{ translateX: multiply(x, -1) }],
+            }}
+          >
+            {slides.map(({ subtitle, description }, index) => {
+              const last = index === slides.length - 1
+
+              return (
+                <Subslide
+                  key={index}
+                  {...{ subtitle, description, last }}
+                  onPress={() => {
+                    if (last) {
+                      //navigation.navigate("Welcome")
+                    } else {
+                      scroll.current?.getNode().scrollTo({ x: width * (index + 1), animated: true })
+                    }
+                  }}
+                />
+              )
+            })}
+          </Animated.View>
+        </View>
       </View>
     </View>
   )

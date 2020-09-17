@@ -1,30 +1,27 @@
 import React from "react"
-import { StyleSheet, View, Text } from "react-native"
+import { StyleSheet, View, Text, Dimensions } from "react-native"
 // import { Text } from "../../components"
 import { Button } from "../../components"
 
 // import { Button } from "../../components"
-
+const { width } = Dimensions.get("window")
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
     padding: 44,
-  },
-  description: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: "#0C0D34",
-    textAlign: "center",
-    marginBottom: 40,
   },
   subtitle: {
     fontSize: 16,
     lineHeight: 30,
     marginBottom: 12,
-    color: "#0C0D34",
     textAlign: "center",
+  },
+  description: {
+    lineHeight: 24,
+    textAlign: "center",
+    marginBottom: 40,
   },
 })
 
@@ -41,7 +38,7 @@ export function Subslide({ subtitle, description, last, onPress }: SubSlideProps
       <Text style={styles.subtitle}>{subtitle}</Text>
       <Text style={styles.description}>{description}</Text>
       <Button
-        preset={last ? "slider" : "slider"}
+        preset="slider"
         text={last ? "Let's get started" : "Next"}
         style={
           last ? { backgroundColor: "#2CB9B0" } : { backgroundColor: "rgba(12, 13, 52, 0.05)" }
