@@ -1,23 +1,22 @@
-import React, { useRef } from "react";
-import { TextInput as RNTextInput } from "react-native";
-import { CommonActions } from "@react-navigation/native";
-import { BorderlessButton } from "react-native-gesture-handler";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import React, { useRef } from "react"
+import { TextInput as RNTextInput } from "react-native"
+import { CommonActions } from "@react-navigation/native"
+import { BorderlessButton } from "react-native-gesture-handler"
+import { useFormik } from "formik"
+import * as Yup from "yup"
 
-import { Container, Button, Text, Box } from "../components";
-import { AuthNavigationProps } from "../components/Navigation";
-import TextInput from "../components/Form/TextInput";
-import Checkbox from "../components/Form/Checkbox";
-import Footer from "./components/Footer";
+// import { Container, Box } from "../components";
+import { color, spacing, typography, borderRadius } from "../../theme"
+import { Text, Button } from "../../components"
+// import { AuthNavigationProps } from "../components/Navigation"
+import TextInput from "../../components/base-components/Form/TextInput"
+import Checkbox from "../../components/base-components/Form/Checkbox"
+import Footer from "../../components/base-components/Footer"
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-});
+  password: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+})
 
 const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
   const {
@@ -36,17 +35,17 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
         CommonActions.reset({
           index: 0,
           routes: [{ name: "Home" }],
-        })
+        }),
       ),
-  });
-  const password = useRef<RNTextInput>(null);
+  })
+  const password = useRef<RNTextInput>(null)
   const footer = (
     <Footer
       title="Don't have an account?"
       action="Sign Up here"
       onPress={() => navigation.navigate("SignUp")}
     />
-  );
+  )
 
   return (
     <Container pattern={0} {...{ footer }}>
@@ -97,24 +96,18 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
             checked={values.remember}
             onChange={() => setFieldValue("remember", !values.remember)}
           />
-          <BorderlessButton
-            onPress={() => navigation.navigate("ForgotPassword")}
-          >
+          <BorderlessButton onPress={() => navigation.navigate("ForgotPassword")}>
             <Text variant="button" color="primary">
               Forgot Password
             </Text>
           </BorderlessButton>
         </Box>
         <Box alignItems="center" marginTop="m">
-          <Button
-            variant="primary"
-            label="Log into your account"
-            onPress={handleSubmit}
-          />
+          <Button variant="primary" label="Log into your account" onPress={handleSubmit} />
         </Box>
       </Box>
     </Container>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
