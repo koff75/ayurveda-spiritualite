@@ -1,10 +1,10 @@
 /**
- * Ignore some yellowbox warnings. Some of these are for deprecated functions
+ * Ignore some yellowbox/LogBox warnings. Some of these are for deprecated functions
  * that we haven't gotten around to replacing yet.
  */
-import { YellowBox } from "react-native"
+import { LogBox } from "react-native"
 
 // prettier-ignore
-YellowBox.ignoreWarnings([
+LogBox.ignoreLogs([
   "Require cycle:",
 ])
