@@ -38,8 +38,8 @@ export function PrimaryNavigator() {
       }}
     >
       <Stack.Screen name="onBoarding" component={OnboardingScreen} />
-      {/* <Stack.Screen name="welcome" component={WelcomeScreen} />
-      <Stack.Screen name="demo" component={DemoScreen} /> */}
+      <Stack.Screen name="welcome" component={WelcomeScreen} />
+      <Stack.Screen name="demo" component={DemoScreen} />
     </Stack.Navigator>
   )
 }

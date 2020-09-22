@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle, View, Dimensions, StyleSheet } from "react-native"
-import Animated, { multiply, divide } from "react-native-reanimated"
+import { ViewStyle, View, Dimensions, StyleSheet, Image } from "react-native"
+import Animated, { multiply, divide, interpolate, Extrapolate } from "react-native-reanimated"
 import { useScrollHandler, interpolateColor } from "react-native-redash/lib/module/v1"
 import { HeaderTitle } from "@react-navigation/stack"
 
@@ -9,15 +9,22 @@ import { Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
-import { Slider, SLIDER_HEIGHT } from "../../components/slider/slider"
+import { Slider, SLIDER_HEIGHT, BORDER_RADIUS } from "../../components/slider/slider"
 import { Subslide } from "../../components/slider/subslide"
 import { Dot } from "../../components/slider/dot"
+import { useNavigation } from "@react-navigation/native"
 
-const BORDER_RADIUS = 75
 const { width } = Dimensions.get("window")
 
 /* === CSS === */
 const CONTAINER: ViewStyle = { flex: 1, backgroundColor: "white" }
+const UDERLAY: ViewStyle = {
+  ...StyleSheet.absoluteFillObject,
+  justifyContent: "flex-end",
+  alignItems: "center",
+  borderBottomRightRadius: BORDER_RADIUS,
+  overflow: "hidden",
+}
 const SLIDER: ViewStyle = {
   height: SLIDER_HEIGHT,
   borderBottomRightRadius: BORDER_RADIUS,
@@ -39,28 +46,32 @@ const PAGINATION: ViewStyle = {
 
 const slides = [
   {
-    title: "Relaxed",
-    subtitle: "Find Your Outfits",
-    description: "Confused about your outfit? Don't worry! Find the best outfit here!",
+    title: "Meditation",
+    subtitle: "Programme de respiration",
+    description: "Méditer n'a jamais été aussi facile! Plonge toi un nouvel univers.",
     color: "#BFEAF5",
+    picture: { src: require("./../../../assets/img/yoga11.jpg"), width: 720, height: 1280 },
   },
   {
-    title: "Playful",
-    subtitle: "Hear it First, Wear it First",
-    description: "Hating the clothes in your wardrobe? Explore hundreds of outfits ideas",
+    title: "Yogiser",
+    subtitle: "En route vers l'aventure...",
+    description: "En toute simplicité où que vous soyez.",
     color: "#BEECC4",
+    picture: { src: require("./../../../assets/img/yoga12.jpg"), width: 2791, height: 3744 },
   },
   {
-    title: "Excentric",
-    subtitle: "Your Style, Your Way",
-    description: "Create your individual & unique style and look amazing everyday",
+    title: "Suivez",
+    subtitle: "Par la pratique au jour",
+    description: "Progression et bienfaits au quotidien en douceur pour vous et que pour vous.",
     color: "#FFE4D9",
+    picture: { src: require("./../../../assets/img/yoga8.png"), width: 512, height: 327 },
   },
   {
-    title: "Funky",
-    subtitle: "Look Good, Feel Good",
-    description: "Discover the latest trends in fashion and explore your personality",
+    title: "Profiter",
+    subtitle: "Ouvre les yeux...",
+    description: "D'un programme de découverte gratuit et illimité.",
     color: "#FFDDDD",
+    picture: { src: require("./../../../assets/img/yoga4.png"), width: 1757, height: 2551 },
   },
 ]
 export const OnboardingScreen = observer(function OnboardingScreen() {
@@ -70,7 +81,7 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
   // const rootStore = useStores()
 
   // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation()
   const scroll = useRef<Animated.ScrollView>(null)
   const { scrollHandler, x } = useScrollHandler()
   const backgroundColor = interpolateColor(x, {
@@ -80,6 +91,25 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
   return (
     <View style={CONTAINER}>
       <Animated.View style={[SLIDER, { backgroundColor }]}>
+        {slides.map(({ picture }, index) => {
+          const opacity = interpolate(x, {
+            inputRange: [(index - 0.5) * width, index * width, (index + 0.5) * width],
+            outputRange: [0, 1, 0],
+            extrapolate: Extrapolate.CLAMP,
+          })
+          return (
+            <Animated.View style={[UDERLAY, { opacity }]} key={index}>
+              <Image
+                source={picture.src}
+                style={{
+                  width: width - BORDER_RADIUS,
+                  height: ((width - BORDER_RADIUS) * picture.height) / picture.width,
+                }}
+              />
+            </Animated.View>
+          )
+        })}
+
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -89,8 +119,8 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
           bounces={false}
           {...scrollHandler}
         >
-          {slides.map(({ title, color }, index) => (
-            <Slider key={index} right={!!(index % 2)} {...{ title }} />
+          {slides.map(({ title, color, picture }, index) => (
+            <Slider key={index} right={!!(index % 2)} {...{ title, picture }} />
           ))}
         </Animated.ScrollView>
       </Animated.View>
@@ -119,7 +149,7 @@ export const OnboardingScreen = observer(function OnboardingScreen() {
                   {...{ subtitle, description, last }}
                   onPress={() => {
                     if (last) {
-                      //navigation.navigate("Welcome")
+                      navigation.navigate("welcome")
                     } else {
                       scroll.current?.getNode().scrollTo({ x: width * (index + 1), animated: true })
                     }

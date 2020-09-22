@@ -21,6 +21,21 @@
  *
  * Feel free to delete this block.
  */
+export const spacing = {
+  t: 4,
+  s: 8,
+  m: 16,
+  l: 24,
+  xl: 40,
+}
+
+// export const SLIDER_HEIGHT = 0.61 * height
+export const borderRadius = {
+  s: 4,
+  m: 10,
+  l: 25,
+  xl: 75,
+}
 
 /**
  * The available spacing.
@@ -38,4 +53,4 @@
  * 7 = huge    - ?
  * 8 = massive - an uncomfortable amount of whitespace
  */
-export const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64]
+// export const spacing = [0, 4, 8, 12, 16, 24, 32, 48, 64]

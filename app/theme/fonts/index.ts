@@ -6,8 +6,9 @@ export const initFonts = async () => {
   // Welcome back! Just uncomment this and replace/append with your font file names!
   // ⬇
   await Font.loadAsync({
-    "SFProText-Regular": require("./SFProText-Regular.ttf"),
-    "SFProText-Semibold": require("./SFProText-Semibold.ttf"),
-    "SFProText-Bold": require("./SFProText-Bold.ttf"),
+    "SFPro-Regular": require("./SF-Pro-Display-Regular.otf"),
+    "SFPro-Semibold": require("./SF-Pro-Display-Semibold.otf"),
+    "SFPro-Bold": require("./SF-Pro-Display-Bold.otf"),
+    "SFPro-Medium": require("./SF-Pro-Display-Medium.otf"),
   })
 }

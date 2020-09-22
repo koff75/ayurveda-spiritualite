@@ -21,14 +21,6 @@ export const color = {
    */
   transparent: "rgba(0, 0, 0, 0)",
   /**
-   * The screen background.
-   */
-  background: palette.white,
-  /**
-   * The main tinting color.
-   */
-  primary: palette.orange,
-  /**
    * The main tinting color, but darker.
    */
   primaryDarker: palette.orangeDarker,
@@ -39,7 +31,7 @@ export const color = {
   /**
    * The default color of text in many components.
    */
-  text: palette.white,
+  text: palette.black,
   /**
    * Secondary information.
    */
@@ -48,6 +40,21 @@ export const color = {
    * Error messages and icons.
    */
   error: palette.angry,
+
+  background: palette.white,
+  background2: palette.grey,
+  primary: palette.cyan,
+  primaryLight: palette.lightCyan,
+  secondary: palette.darkBlue,
+  info: palette.darkGrey,
+  danger: palette.darkPink,
+  body: "rgba(12, 13, 52, 0.7)",
+  graph1: palette.orange,
+  graph2: palette.yellow,
+  drawer1: palette.orange,
+  drawer2: palette.yellow,
+  drawer3: palette.pink,
+  drawer4: palette.violet,
 
   /**
    * Storybook background for Text stories, or any stories where

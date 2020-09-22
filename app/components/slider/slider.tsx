@@ -6,6 +6,7 @@ import { spacing, typography } from "../../theme"
 
 const { width, height } = Dimensions.get("window")
 export const SLIDER_HEIGHT = 0.61 * height
+export const BORDER_RADIUS = 75
 
 const CONTAINER: ViewStyle = { width }
 const TITLE_CONTAINER: ViewStyle = {
@@ -19,6 +20,8 @@ const TITLE: TextStyle = {
   color: "white",
   textAlign: "center",
 }
+
+const PICTURE: ImageStyle = {}
 
 export interface SliderProps {
   title: string

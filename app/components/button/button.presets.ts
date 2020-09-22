@@ -25,10 +25,11 @@ export const viewPresets = {
   /**
    * A smaller piece of secondard information.
    */
-  primary: { ...BASE_VIEW, backgroundColor: color.palette.orange } as ViewStyle,
+  monPrimary: { ...BASE_VIEW, backgroundColor: color.palette.orange } as ViewStyle,
 
   // Button style for the subslide component
-  slider: {
+  primary: {
+    backgroundColor: "#2CB9B0",
     borderRadius: 25,
     height: 50,
     width: 245,
@@ -48,8 +49,13 @@ export const viewPresets = {
 }
 
 export const textPresets = {
-  slider: { fontFamily: typography.SFProReg, fontSize: 15, textAlign: "center" } as TextStyle,
-  primary: { ...BASE_TEXT, fontSize: 9, color: color.palette.white } as TextStyle,
+  primary: {
+    fontFamily: typography.SFProMedium,
+    fontSize: 15,
+    textAlign: "center",
+    color: color.palette.grey,
+  } as TextStyle,
+  monPrimary: { ...BASE_TEXT, fontSize: 9, color: color.palette.white } as TextStyle,
   link: {
     ...BASE_TEXT,
     color: color.text,
