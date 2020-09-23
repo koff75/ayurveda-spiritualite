@@ -1,24 +1,24 @@
 import React, { useRef } from "react"
 import { TextInput as RNTextInput } from "react-native"
-import { observer } from "mobx-react-lite"
-import { CommonActions, useNavigation } from "@react-navigation/native"
+import { CommonActions } from "@react-navigation/native"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { useFormik } from "formik"
 import * as Yup from "yup"
 
-import { Container, Button, Text, Box } from "../../components/base-components"
+// import { Container, Box } from "../components";
+import { color, spacing, typography, borderRadius } from "../../theme"
+import { Text, Button } from "../../components"
+// import { AuthNavigationProps } from "../components/Navigation"
 import TextInput from "../../components/base-components/Form/TextInput"
 import Checkbox from "../../components/base-components/Form/Checkbox"
-import Footer from "./components/Footer"
+import Footer from "../../components/base-components/Footer"
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
 })
 
-const Login = observer(function Login() {
-  const navigation = useNavigation()
-
+const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
   const {
     handleChange,
     handleBlur,
@@ -108,6 +108,6 @@ const Login = observer(function Login() {
       </Box>
     </Container>
   )
-})
+}
 
 export default Login

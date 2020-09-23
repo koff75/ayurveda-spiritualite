@@ -1,18 +1,12 @@
 import React, { forwardRef } from "react"
 import {
-  View,
   TextInput as RNTextInput,
   StyleSheet,
-  ViewStyle,
   TextInputProps as RNTextInputProps,
 } from "react-native"
 import { Feather as Icon } from "@expo/vector-icons"
 import { Box, useTheme } from "../Theme"
 import RoundIcon from "../RoundIcon"
-import { color, spacing, typography, borderRadius } from "../../../theme"
-
-/* === CSS === */
-const CONTAINER: ViewStyle = {}
 
 interface TextInputProps extends RNTextInputProps {
   icon: string
@@ -20,36 +14,35 @@ interface TextInputProps extends RNTextInputProps {
   touched?: boolean
 }
 
+// eslint-disable-next-line react/display-name
 const TextInput = forwardRef<RNTextInput, TextInputProps>(
   ({ icon, error, touched, ...props }, ref) => {
-    // const theme = useTheme()
-    const SIZE = borderRadius.m * 2
-    const colorDetec = !touched ? "body" : error ? "danger" : "primary"
-    const themeColor = color[colorDetec]
+    const theme = useTheme()
+    const SIZE = theme.borderRadii.m * 2
+    const color = !touched ? "body" : error ? "danger" : "primary"
+    const themeColor = theme.colors[color]
 
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          height: 48,
-          borderRadius: borderRadius.s,
-          borderColor: colorDetec,
-          borderWidth: StyleSheet.hairlineWidth,
-          padding: spacing.s,
-        }}
+      <Box
+        flexDirection="row"
+        alignItems="center"
+        height={48}
+        borderRadius="s"
+        borderColor={color}
+        borderWidth={StyleSheet.hairlineWidth}
+        padding="s"
       >
-        <View style={{ padding: spacing.s }}>
+        <Box padding="s">
           <Icon name={icon} size={16} color={themeColor} />
-        </View>
-        <View style={{ flex: 1 }}>
+        </Box>
+        <Box flex={1}>
           <RNTextInput
             underlineColorAndroid="transparent"
             placeholderTextColor={themeColor}
             {...{ ref }}
             {...props}
           />
-        </View>
+        </Box>
         {touched && (
           <RoundIcon
             name={!error ? "check" : "x"}
@@ -58,7 +51,7 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
             color="background"
           />
         )}
-      </View>
+      </Box>
     )
   },
 )
