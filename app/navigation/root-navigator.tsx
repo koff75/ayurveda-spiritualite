@@ -7,7 +7,8 @@
 import React from "react"
 import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import { PrimaryNavigator } from "./primary-navigator"
+import { HomeNavigator, AuthNavigator } from "./primary-navigator"
+import { useStores } from "../models"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -20,12 +21,14 @@ import { PrimaryNavigator } from "./primary-navigator"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type RootParamList = {
-  primaryStack: undefined
+  homeStack: undefined
+  authStack: undefined
 }
 
 const Stack = createStackNavigator<RootParamList>()
 
 const RootStack = () => {
+  const rootStore = useStores()
   return (
     <Stack.Navigator
       screenOptions={{
@@ -33,13 +36,31 @@ const RootStack = () => {
         gestureEnabled: true,
       }}
     >
-      <Stack.Screen
-        name="primaryStack"
-        component={PrimaryNavigator}
-        options={{
-          headerShown: false,
-        }}
-      />
+      {1 === 1 ? (
+        <>
+          <Stack.Screen
+            name="homeStack"
+            component={HomeNavigator}
+            options={{
+              headerShown: false,
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <Stack.Screen
+            name="authStack"
+            component={AuthNavigator}
+            options={{
+              headerShown: false,
+              title: "Sign in",
+              // When logging out, a pop animation feels intuitive
+              // You can remove this if you want the default 'push' animation
+              animationTypeForReplace: rootStore.isSignout ? "pop" : "push",
+            }}
+          />
+        </>
+      )}
     </Stack.Navigator>
   )
 }

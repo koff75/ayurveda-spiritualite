@@ -10,14 +10,29 @@ import { Container, Button, Text, Box } from "../../components/base-components"
 import TextInput from "../../components/base-components/Form/TextInput"
 import Checkbox from "../../components/base-components/Form/Checkbox"
 import Footer from "./components/Footer"
+import { loginWithEmail } from "../../components/base-components/Firebase"
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+  password: Yup.string()
+    .min(6, "Password must have at least 6 characters")
+    .max(50, "Too Long!")
+    .required("Required"),
 })
 
 const Login = observer(function Login() {
   const navigation = useNavigation()
+
+  async function handleOnLogin(values) {
+    const { email, password } = values
+
+    try {
+      await loginWithEmail(email, password)
+    } catch (error) {
+      // setLoginError(error.message)
+      console.log("Erreur loginWithEmail")
+    }
+  }
 
   const {
     handleChange,
@@ -29,14 +44,16 @@ const Login = observer(function Login() {
     setFieldValue,
   } = useFormik({
     validationSchema: LoginSchema,
-    initialValues: { email: "", password: "", remember: false },
-    onSubmit: () =>
+    initialValues: { email: "", password: "", remember: true },
+    onSubmit: (values) => {
+      handleOnLogin(values)
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
           routes: [{ name: "Home" }],
         }),
-      ),
+      )
+    },
   })
   const password = useRef<RNTextInput>(null)
   const footer = (
@@ -67,6 +84,9 @@ const Login = observer(function Login() {
             autoCompleteType="email"
             returnKeyType="next"
             returnKeyLabel="next"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            textContentType="emailAddress"
             onSubmitEditing={() => password.current?.focus()}
           />
         </Box>
@@ -80,6 +100,7 @@ const Login = observer(function Login() {
           touched={touched.password}
           autoCompleteType="password"
           autoCapitalize="none"
+          autoCorrect={false}
           returnKeyType="go"
           returnKeyLabel="go"
           onSubmitEditing={() => handleSubmit()}
