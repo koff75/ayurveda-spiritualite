@@ -55,8 +55,6 @@ function App() {
       await initFonts()
       setupRootStore().then(setRootStore)
     })()
-    rootStore?.firebaseAuth()
-    console.log("Passage app.tsx")
 
     // SplashScreen.hide()
     // GoogleSignin.configure & Onesignal init

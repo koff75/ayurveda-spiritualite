@@ -11,14 +11,14 @@
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "sourceMap": true,
-    "target": "esnext",
-    "lib": ["esnext"],
+    "target": "ESNext",
+    "lib": ["es6"],
     "skipLibCheck": true,
     // Rajout Nico
     "noEmit": true,
     "resolveJsonModule": true,
     "strict": true,
-    "strictNullChecks": true,
+    // "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "alwaysStrict": true,
@@ -27,5 +27,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules"],
-  "include": ["index.js", "app", "test", "storybook"]
+  "include": ["App.js", "app", "test", "storybook"]
 }

@@ -1,7 +1,7 @@
 import React, { useRef } from "react"
 import { TextInput as RNTextInput } from "react-native"
 import { observer } from "mobx-react-lite"
-import { CommonActions, useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { useFormik } from "formik"
 import * as Yup from "yup"
@@ -28,6 +28,7 @@ const Login = observer(function Login() {
 
     try {
       await loginWithEmail(email, password)
+      navigation.navigate("Home")
     } catch (error) {
       // setLoginError(error.message)
       console.log("Erreur loginWithEmail")
@@ -47,12 +48,12 @@ const Login = observer(function Login() {
     initialValues: { email: "", password: "", remember: true },
     onSubmit: (values) => {
       handleOnLogin(values)
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Home" }],
-        }),
-      )
+      // navigation.dispatch(
+      //   CommonActions.reset({
+      //     index: 0,
+      //     routes: [{ name: "Home" }],
+      //   }),
+      // )
     },
   })
   const password = useRef<RNTextInput>(null)

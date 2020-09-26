@@ -14,7 +14,7 @@ const firebaseConfig = {
   appId: "1:408872061279:web:13b99a2bbdbbe44a16ceea",
   measurementId: "G-J2SLZ8M211",
 }
-
+// @refresh reset
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig)
 }

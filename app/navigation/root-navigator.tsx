@@ -9,6 +9,8 @@ import { NavigationContainer, NavigationContainerRef } from "@react-navigation/n
 import { createStackNavigator } from "@react-navigation/stack"
 import { HomeNavigator, AuthNavigator } from "./primary-navigator"
 import { useStores } from "../models"
+import { SlideFromRightIOS } from "react-navigation-stack/lib/typescript/src/vendor/TransitionConfigs/TransitionPresets"
+import { auth } from "../components/base-components/Firebase"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,6 +31,27 @@ const Stack = createStackNavigator<RootParamList>()
 
 const RootStack = () => {
   const rootStore = useStores()
+  // rootStore.firebaseAuth()
+  /* */
+  const [isLoading, setIsLoading] = React.useState(true)
+
+  React.useEffect(() => {
+    // onAuthStateChanged returns an unsubscriber
+    const unsubscribeAuth = auth.onAuthStateChanged(async (authUser) => {
+      try {
+        await (authUser ? rootStore.setUser(authUser.uid) : rootStore.setUser(null))
+        setIsLoading(false)
+        console.log(`Use Effect -> compte trouvé ${authUser.email}`)
+      } catch (error) {
+        console.log(error)
+      }
+    })
+
+    // unsubscribe auth listener on unmount
+    return unsubscribeAuth
+  }, [])
+  /* */
+
   return (
     <Stack.Navigator
       screenOptions={{
@@ -36,7 +59,7 @@ const RootStack = () => {
         gestureEnabled: true,
       }}
     >
-      {1 === 1 ? (
+      {rootStore.uid2 === null || rootStore.uid2 === "1" ? (
         <>
           <Stack.Screen
             name="homeStack"

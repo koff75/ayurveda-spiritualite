@@ -7938,10 +7938,10 @@ iferr@^0.1.5:
   resolved "https://registry.yarnpkg.com/iferr/-/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
-ignite-bowser@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/ignite-bowser/-/ignite-bowser-5.3.0.tgz#09a530fd7c9bb4c64309bb151c9ab1c55501507f"
-  integrity sha512-zOG0gRiKridAOQeBTLD/94ylbF1Kzq8+uSiwh/pewQP4yitDKV7nhLIgbnquRc3aSI7uoxiDJNRULnsLNDZHeg==
+ignite-bowser@^5.4.0:
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/ignite-bowser/-/ignite-bowser-5.4.0.tgz#1041b1752b2fd1bad0babb2600c06b442331f589"
+  integrity sha512-ge5HVNDs3UmmBHlokOoLS05DmjRCngxwriJSBzrSUl7UmMzGG+BGyuWYABsu08c9m+xjDqnkbDUsYZAjvwqJOQ==
   dependencies:
     ramda "^0.26.1"
     read-pkg-up "^7.0.0"

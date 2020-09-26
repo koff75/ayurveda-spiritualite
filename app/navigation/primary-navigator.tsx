@@ -38,7 +38,7 @@ export type PrimaryParamList = {
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
 
-export function HomeNavigator() {
+export function AuthNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -49,14 +49,14 @@ export function HomeNavigator() {
       <Stack.Screen name="Onboarding" component={Onboarding} />
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Login" component={Login} />
-      {/* <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
       <Stack.Screen name="PasswordChanged" component={PasswordChanged} /> */}
     </Stack.Navigator>
   )
 }
 
-export function AuthNavigator() {
+export function HomeNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -64,10 +64,7 @@ export function AuthNavigator() {
         gestureEnabled: true,
       }}
     >
-      <Stack.Screen name="Login" component={Login} />
-      {/* <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="PasswordChanged" component={PasswordChanged} /> */}
+      <Stack.Screen name="Onboarding" component={Onboarding} />
     </Stack.Navigator>
   )
 }
