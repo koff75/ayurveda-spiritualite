@@ -11,6 +11,7 @@ import { HomeNavigator, AuthNavigator } from "./primary-navigator"
 import { useStores } from "../models"
 import { SlideFromRightIOS } from "react-navigation-stack/lib/typescript/src/vendor/TransitionConfigs/TransitionPresets"
 import { auth } from "../components/base-components/Firebase"
+import { observer } from "mobx-react-lite"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -29,7 +30,7 @@ export type RootParamList = {
 
 const Stack = createStackNavigator<RootParamList>()
 
-const RootStack = () => {
+const RootStack = observer(function RootStack() {
   const rootStore = useStores()
   // rootStore.firebaseAuth()
   /* */
@@ -59,8 +60,10 @@ const RootStack = () => {
         gestureEnabled: true,
       }}
     >
-      {rootStore.uid2 === null || rootStore.uid2 === "1" ? (
+      {console.log("Load stack navigator")}
+      {rootStore.uid2 !== null || rootStore.uid2 !== "1" ? (
         <>
+          {console.log("homeStack")}
           <Stack.Screen
             name="homeStack"
             component={HomeNavigator}
@@ -71,6 +74,7 @@ const RootStack = () => {
         </>
       ) : (
         <>
+          {console.log("authStack")}
           <Stack.Screen
             name="authStack"
             component={AuthNavigator}
@@ -86,7 +90,7 @@ const RootStack = () => {
       )}
     </Stack.Navigator>
   )
-}
+})
 
 export const RootNavigator = React.forwardRef<
   NavigationContainerRef,

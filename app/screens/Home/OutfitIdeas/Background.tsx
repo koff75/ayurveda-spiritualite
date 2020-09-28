@@ -1,19 +1,15 @@
-import React from "react";
-import { Image, View, StyleSheet } from "react-native";
-import { Box, useTheme } from "../../components";
-import { palette } from "../../components/Theme";
+import React from "react"
+import { Image, View, StyleSheet } from "react-native"
+import { Box, useTheme } from "../../../components/base-components"
+import { palette } from "../../../components/base-components/Theme"
 
 const Background = () => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <View style={StyleSheet.absoluteFill}>
       <Box flex={1 / 3} style={{ backgroundColor: palette.lightBlue }}>
-        <Box
-          flex={1}
-          backgroundColor="background"
-          borderBottomRightRadius="xl"
-        />
+        <Box flex={1} backgroundColor="background" borderBottomRightRadius="xl" />
       </Box>
       <Box flex={1 / 3}>
         <Box flex={1} backgroundColor="background" />
@@ -33,7 +29,7 @@ const Background = () => {
         <Box flex={1} backgroundColor="secondary" borderTopLeftRadius="xl" />
       </Box>
     </View>
-  );
-};
+  )
+}
 
-export default Background;
+export default Background

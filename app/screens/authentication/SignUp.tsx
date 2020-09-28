@@ -8,10 +8,21 @@ import * as Yup from "yup"
 import { Container, Button, Text, Box } from "../../components/base-components"
 import TextInput from "../../components/base-components/Form/TextInput"
 import Footer from "./components/Footer"
+import { registerWithEmail } from "../../components/base-components/Firebase"
+
+/*
+Fixed a bug when Password input is selected :
+"currentlyFocusedField is deprecated and will be removed in a future release. Use currentlyFocusedInput"
+FILE line 372: node_modules/react-native-keyboard-aware-scroll-view/lib/KeyboardAwareHOC.js
+Fix: const currentlyFocusedField = TextInput.State.currentlyFocusedInput ? findNodeHandle(TextInput.State.currentlyFocusedInput()) : TextInput.State.currentlyFocusedField();
+*/
 
 const SignUpSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
-  password: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Required"),
+  password: Yup.string()
+    .min(6, "Password must have at least 6 characters")
+    .max(50, "Too Long!")
+    .required("Required"),
   confirmPassword: Yup.string()
     .equals([Yup.ref("password")], "Passwords don't match")
     .required("Required"),
@@ -19,10 +30,22 @@ const SignUpSchema = Yup.object().shape({
 
 const SignUp = observer(function SignUp() {
   const navigation = useNavigation()
+
+  async function handleOnSignUp(values) {
+    const { email, password } = values
+    try {
+      await registerWithEmail(email, password)
+      navigation.navigate("Home")
+    } catch (error) {
+      // setRegisterError(error.message)
+      console.log("Erreur de création de compte Firebase")
+    }
+  }
+
   const { handleChange, handleBlur, handleSubmit, errors, touched } = useFormik({
     validationSchema: SignUpSchema,
     initialValues: { email: "", password: "", confirmPassword: "" },
-    onSubmit: () => navigation.navigate("Home"),
+    onSubmit: (values) => handleOnSignUp(values),
   })
   const password = useRef<RNTextInput>(null)
   const confirmPassword = useRef<RNTextInput>(null)

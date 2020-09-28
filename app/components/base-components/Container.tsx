@@ -1,10 +1,10 @@
 import React, { ReactNode } from "react"
 import { Dimensions, Image, StyleSheet, Platform } from "react-native"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
+import { SafeAreaInsetsContext, useSafeAreaInsets } from "react-native-safe-area-context"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Constants from "expo-constants"
 
-import { Box, useTheme } from "./Theme"
+import { Box } from "./Theme"
 export const assets = [
   require("./../../../assets/img/1.png"),
   require("./../../../assets/img/2.png"),
@@ -20,23 +20,39 @@ interface ContainerProps {
   pattern: 0 | 1 | 2
 }
 
+/*
+  FIX ME :
+  Problème avec le safeArea bottom qui laisse un rectangle blanc en bas de l'écran
+  J'ai multiplié par 2.6 la hauteur mais pour l'adapter à mon tél Android mais à tester...bof.
+*/
+// Before manifest android android:windowSoftInputMode="stateAlwaysHidden|adjustPan|adjustResize"
+// after android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+
 const Container = ({ children, footer, pattern }: ContainerProps) => {
   const insets = useSafeAreaInsets()
-  const theme = useTheme()
   const asset = assets[pattern]
 
   return (
-    <KeyboardAwareScrollView scrollEnabled={false}>
+    <KeyboardAwareScrollView
+      enableAutomaticScroll
+      extraScrollHeight={Platform.select({ android: 150 })} // Permet de scroller en fction du clavier
+      enableOnAndroid={true}
+      // extraHeight={Platform.select({ android: 200 })}
+      // style={{ flexGrow: 1 }}
+      contentContainerStyle={{
+        flex: 1,
+        backgroundColor: "#ccc",
+        minHeight: wHeight,
+      }}
+      automaticallyAdjustContentInsets={false}
+    >
       <Box
-        height={wHeight + (Platform.OS === "android" ? Constants.statusBarHeight : 0)}
+        height={wHeight + (Platform.OS === "android" ? Constants.statusBarHeight * 2.6 : 0)}
         backgroundColor="secondary"
       >
         <Box backgroundColor="background">
-          <Box borderBottomLeftRadius="xl" overflow="hidden" height={height * 0.61}>
-            <Image
-              source={asset}
-              style={{ width, height, borderBottomLeftRadius: theme.borderRadii.xl }}
-            />
+          <Box overflow="hidden" height={height * 0.61}>
+            <Image source={asset} style={{ width, height }} />
           </Box>
         </Box>
         <Box flex={1} overflow="hidden">

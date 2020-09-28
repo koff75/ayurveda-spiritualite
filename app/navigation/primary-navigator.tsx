@@ -6,6 +6,8 @@
  */
 import React from "react"
 import { createStackNavigator } from "@react-navigation/stack"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { Ionicons } from "@expo/vector-icons"
 import { WelcomeScreen, DemoScreen, OnboardingScreen } from "../screens"
 import Onboarding from "../screens/Authentication/Onboarding"
 import Welcome from "../screens/Authentication/Welcome"
@@ -13,6 +15,7 @@ import Login from "../screens/Authentication/Login"
 import SignUp from "../screens/Authentication/SignUp"
 import ForgotPassword from "../screens/Authentication/ForgotPassword"
 import PasswordChanged from "../screens/Authentication/PasswordChanged"
+import OutfitIdeas from "../screens/Home/OutfitIdeas"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -27,12 +30,18 @@ import PasswordChanged from "../screens/Authentication/PasswordChanged"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type PrimaryParamList = {
+  /* Authentification */
   Onboarding: undefined
   Welcome: undefined
   Login: undefined
   SignUp: undefined
   ForgotPassword: undefined
   PasswordChanged: undefined
+  /* Home */
+  OutfitIdeas: undefined
+  FavoriteOutfits: undefined
+  TransactionHistory: undefined
+  EditProfile: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -50,22 +59,42 @@ export function AuthNavigator() {
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={SignUp} />
-      {/* <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="PasswordChanged" component={PasswordChanged} /> */}
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="PasswordChanged" component={PasswordChanged} />
     </Stack.Navigator>
   )
 }
 
+const Tab = createBottomTabNavigator<PrimaryParamList>()
+
 export function HomeNavigator() {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName
+
+          if (route.name === "OutfitIdeas") {
+            iconName = focused ? "ios-information-circle" : "ios-information-circle-outline"
+          } else if (route.name === "Settings") {
+            iconName = focused ? "ios-list-box" : "ios-list"
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: "tomato",
+        inactiveTintColor: "gray",
       }}
     >
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-    </Stack.Navigator>
+      <Tab.Screen name="OutfitIdeas" component={OutfitIdeas} />
+      {/* <Drawer.Screen name="OutfitIdeas" component={OutfitIdeas} />
+      <Drawer.Screen name="FavoriteOutfits" component={FavoriteOutfits} />
+      <Drawer.Screen name="TransactionHistory" component={TransactionHistory} />
+      <Drawer.Screen name="EditProfile" component={EditProfile} /> */}
+    </Tab.Navigator>
   )
 }
 

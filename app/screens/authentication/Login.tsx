@@ -2,6 +2,7 @@ import React, { useRef } from "react"
 import { TextInput as RNTextInput } from "react-native"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
+import { useStores } from "../../models"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { useFormik } from "formik"
 import * as Yup from "yup"
@@ -21,6 +22,8 @@ const LoginSchema = Yup.object().shape({
 })
 
 const Login = observer(function Login() {
+  const rootStore = useStores()
+
   const navigation = useNavigation()
 
   async function handleOnLogin(values) {
@@ -28,7 +31,7 @@ const Login = observer(function Login() {
 
     try {
       await loginWithEmail(email, password)
-      navigation.navigate("Home")
+      // navigation.navigate("Home")
     } catch (error) {
       // setLoginError(error.message)
       console.log("Erreur loginWithEmail")
@@ -46,15 +49,7 @@ const Login = observer(function Login() {
   } = useFormik({
     validationSchema: LoginSchema,
     initialValues: { email: "", password: "", remember: true },
-    onSubmit: (values) => {
-      handleOnLogin(values)
-      // navigation.dispatch(
-      //   CommonActions.reset({
-      //     index: 0,
-      //     routes: [{ name: "Home" }],
-      //   }),
-      // )
-    },
+    onSubmit: (values) => handleOnLogin(values),
   })
   const password = useRef<RNTextInput>(null)
   const footer = (
