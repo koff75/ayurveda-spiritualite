@@ -1,21 +1,21 @@
-import React from "react";
-import { Dimensions } from "react-native";
-import { HomeNavigationProps } from "../../components/Navigation";
-import { DrawerActions } from "@react-navigation/native";
-import { Box, Header, Text, useTheme } from "../../components";
+import React from "react"
+import { Dimensions } from "react-native"
+import { HomeNavigationProps } from "../../../components/base-components/Navigation"
+import { DrawerActions } from "@react-navigation/native"
+import { Box, Header, Text, useTheme } from "../../../components/base-components"
 
-import Tabs from "./Tabs";
-import Configuration from "./Configuration";
-import PersonalInfo from "./PersonalInfo";
+import Tabs from "./Tabs"
+import Configuration from "./Configuration"
+import PersonalInfo from "./PersonalInfo"
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("window")
 const tabs = [
   { id: "config", title: "Configuration" },
   { id: "info", title: "Personal Info" },
-];
+]
 
 const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
-  const theme = useTheme();
+  const theme = useTheme()
 
   return (
     <Box flex={1} backgroundColor="background">
@@ -63,7 +63,7 @@ const EditProfile = ({ navigation }: HomeNavigationProps<"EditProfile">) => {
         <PersonalInfo />
       </Tabs>
     </Box>
-  );
-};
+  )
+}
 
-export default EditProfile;
+export default EditProfile

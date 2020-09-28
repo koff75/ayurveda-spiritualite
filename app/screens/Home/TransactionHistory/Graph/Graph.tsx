@@ -1,47 +1,46 @@
-import React from "react";
-import { Dimensions, View } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import Animated, { divide, multiply, sub } from "react-native-reanimated";
-import { useTransition } from "react-native-redash";
-import moment from "moment";
+import React from "react"
+import { Dimensions, View } from "react-native"
+import { useIsFocused } from "@react-navigation/native"
+import Animated, { divide, multiply, sub } from "react-native-reanimated"
+import { useTransition } from "react-native-redash/lib/module/v1"
+import moment from "moment"
 
-import { Box, useTheme } from "../../../components";
-import { Theme } from "../../../components/Theme";
-import Underlay, { MARGIN } from "./Underlay";
-import { lerp } from "./Scale";
-
+import { Box, useTheme } from "../../../../components/base-components"
+import { Theme } from "../../../../components/base-components/Theme"
+import Underlay, { MARGIN } from "./Underlay"
+import { lerp } from "./Scale"
 
 export interface DataPoint {
-  id: number;
-  date: number;
-  value: number;
-  color: keyof Theme["colors"];
+  id: number
+  date: number
+  value: number
+  color: keyof Theme["colors"]
 }
 
 interface GraphProps {
-  data: DataPoint[];
-  startDate: number;
-  numberOfMonths: number;
+  data: DataPoint[]
+  startDate: number
+  numberOfMonths: number
 }
 
-const { width: wWidth } = Dimensions.get("window");
-const aspectRatio = 195 / 305;
-const AnimatedBox = Animated.createAnimatedComponent(Box);
+const { width: wWidth } = Dimensions.get("window")
+const aspectRatio = 195 / 305
+const AnimatedBox = Animated.createAnimatedComponent(Box)
 
 const Graph = ({ data, startDate, numberOfMonths }: GraphProps) => {
-  const theme = useTheme();
-  const isFocused = useIsFocused();
-  const transition = useTransition(isFocused, { duration: 650 });
+  const theme = useTheme()
+  const isFocused = useIsFocused()
+  const transition = useTransition(isFocused, { duration: 650 })
 
-  const canvasWidth = wWidth - theme.spacing.m * 2;
-  const canvasHeight = canvasWidth * aspectRatio;
-  const width = canvasWidth - theme.spacing[MARGIN];
-  const height = canvasHeight - theme.spacing[MARGIN];
+  const canvasWidth = wWidth - theme.spacing.m * 2
+  const canvasHeight = canvasWidth * aspectRatio
+  const width = canvasWidth - theme.spacing[MARGIN]
+  const height = canvasHeight - theme.spacing[MARGIN]
 
-  const step = width / numberOfMonths;
-  const values = data.map((p) => p.value);
-  const minY = Math.min(...values);
-  const maxY = Math.max(...values);
+  const step = width / numberOfMonths
+  const values = data.map((p) => p.value)
+  const minY = Math.min(...values)
+  const maxY = Math.max(...values)
 
   return (
     <Box marginTop="l" paddingBottom={MARGIN} paddingLeft={MARGIN}>
@@ -52,16 +51,12 @@ const Graph = ({ data, startDate, numberOfMonths }: GraphProps) => {
         numberOfMonths={numberOfMonths}
         step={step}
       />
-      <View
-        style={{ width, height, overflow: "hidden" }}
-      >
+      <View style={{ width, height, overflow: "hidden" }}>
         {data.map((point) => {
-          const i = Math.round(
-            moment.duration(moment(point.date).diff(startDate)).asMonths()
-          );
-          const totalHeight = lerp(0, height, point.value / maxY);
-          const currentHeight = multiply(totalHeight, transition);
-          const translateY = divide(sub(totalHeight, currentHeight), 2);
+          const i = Math.round(moment.duration(moment(point.date).diff(startDate)).asMonths())
+          const totalHeight = lerp(0, height, point.value / maxY)
+          const currentHeight = multiply(totalHeight, transition)
+          const translateY = divide(sub(totalHeight, currentHeight), 2)
 
           return (
             <AnimatedBox
@@ -71,7 +66,7 @@ const Graph = ({ data, startDate, numberOfMonths }: GraphProps) => {
               bottom={0}
               width={step}
               height={totalHeight}
-              style={{ transform: [{ translateY }, { scaleY: transition }]}}
+              style={{ transform: [{ translateY }, { scaleY: transition }] }}
             >
               <Box
                 backgroundColor={point.color}
@@ -94,11 +89,11 @@ const Graph = ({ data, startDate, numberOfMonths }: GraphProps) => {
                 borderRadius="m"
               />
             </AnimatedBox>
-          );
+          )
         })}
       </View>
     </Box>
-  );
-};
+  )
+}
 
-export default Graph;
+export default Graph

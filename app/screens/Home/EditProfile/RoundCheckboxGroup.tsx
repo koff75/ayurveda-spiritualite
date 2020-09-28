@@ -1,40 +1,35 @@
-import React, { useState } from "react";
-import { View } from "react-native";
-import { BorderlessButton } from "react-native-gesture-handler";
-import { Feather as Icon } from "@expo/vector-icons";
-import { Box, Text, useTheme } from "../../components";
+import React, { useState } from "react"
+import { View } from "react-native"
+import { BorderlessButton } from "react-native-gesture-handler"
+import { Feather as Icon } from "@expo/vector-icons"
+import { Box, Text, useTheme } from "../../../components/base-components"
 
 interface RoundCheckboxGroupProps {
-  options: string[];
-  valueIsColor?: boolean;
+  options: string[]
+  valueIsColor?: boolean
 }
 
-const RoundCheckboxGroup = ({
-  options,
-  valueIsColor,
-}: RoundCheckboxGroupProps) => {
-  const {colors, spacing} = useTheme();
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+const RoundCheckboxGroup = ({ options, valueIsColor }: RoundCheckboxGroupProps) => {
+  const { colors, spacing } = useTheme()
+  const [selectedValues, setSelectedValues] = useState<string[]>([])
 
   return (
     <Box flexDirection="row" flexWrap="wrap" marginTop="s">
       {options.map((option) => {
-        const index = selectedValues.indexOf(option);
-        const isSelected = index !== -1;
-        const backgroundColor = isSelected
-          ? colors.primary
-          : colors.background2;
+        const index = selectedValues.indexOf(option)
+        const isSelected = index !== -1
+        const backgroundColor = isSelected ? colors.primary : colors.background2
 
         return (
           <BorderlessButton
             key={option}
             onPress={() => {
               if (isSelected) {
-                selectedValues.splice(index, 1);
+                selectedValues.splice(index, 1)
               } else {
-                selectedValues.push(option);
+                selectedValues.push(option)
               }
-              setSelectedValues([...selectedValues]);
+              setSelectedValues([...selectedValues])
             }}
           >
             <View
@@ -69,16 +64,14 @@ const RoundCheckboxGroup = ({
                     {option.toUpperCase()}
                   </Text>
                 )}
-                {valueIsColor && isSelected && (
-                  <Icon color="white" name="check" size={16} />
-                )}
+                {valueIsColor && isSelected && <Icon color="white" name="check" size={16} />}
               </View>
             </View>
           </BorderlessButton>
-        );
+        )
       })}
     </Box>
-  );
-};
+  )
+}
 
-export default RoundCheckboxGroup;
+export default RoundCheckboxGroup

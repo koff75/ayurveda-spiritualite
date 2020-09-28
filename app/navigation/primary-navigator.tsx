@@ -16,6 +16,9 @@ import SignUp from "../screens/Authentication/SignUp"
 import ForgotPassword from "../screens/Authentication/ForgotPassword"
 import PasswordChanged from "../screens/Authentication/PasswordChanged"
 import OutfitIdeas from "../screens/Home/OutfitIdeas"
+import FavoriteOutfits from "../screens/Home/FavoriteOutfits"
+import TransactionHistory from "../screens/Home/TransactionHistory"
+import EditProfile from "../screens/Home/EditProfile"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -76,7 +79,11 @@ export function HomeNavigator() {
 
           if (route.name === "OutfitIdeas") {
             iconName = focused ? "ios-information-circle" : "ios-information-circle-outline"
-          } else if (route.name === "Settings") {
+          } else if (route.name === "FavoriteOutfits") {
+            iconName = focused ? "ios-list-box" : "ios-list"
+          } else if (route.name === "TransactionHistory") {
+            iconName = focused ? "ios-list-box" : "ios-list"
+          } else if (route.name === "EditProfile") {
             iconName = focused ? "ios-list-box" : "ios-list"
           }
 
@@ -90,10 +97,9 @@ export function HomeNavigator() {
       }}
     >
       <Tab.Screen name="OutfitIdeas" component={OutfitIdeas} />
-      {/* <Drawer.Screen name="OutfitIdeas" component={OutfitIdeas} />
-      <Drawer.Screen name="FavoriteOutfits" component={FavoriteOutfits} />
-      <Drawer.Screen name="TransactionHistory" component={TransactionHistory} />
-      <Drawer.Screen name="EditProfile" component={EditProfile} /> */}
+      <Tab.Screen name="FavoriteOutfits" component={FavoriteOutfits} />
+      <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
+      <Tab.Screen name="EditProfile" component={EditProfile} />
     </Tab.Navigator>
   )
 }

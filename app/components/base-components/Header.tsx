@@ -2,6 +2,7 @@ import React from "react"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Box, Text } from "./Theme"
 import RoundIconButton from "./RoundIconButton"
+import { View } from "react-native"
 
 interface HeaderProps {
   left: {

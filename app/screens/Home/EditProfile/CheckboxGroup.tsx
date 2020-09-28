@@ -1,34 +1,34 @@
-import React, { useState } from "react";
-import { Box, Button, useTheme } from "../../components";
+import React, { useState } from "react"
+import { Box, Button, useTheme } from "../../../components/base-components"
 
 interface CheckboxGroupProps {
-  options: { value: string; label: string }[];
-  radio?: boolean;
+  options: { value: string; label: string }[]
+  radio?: boolean
 }
 
 const CheckboxGroup = ({ options, radio }: CheckboxGroupProps) => {
-  const {spacing} = useTheme();
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const { spacing } = useTheme()
+  const [selectedValues, setSelectedValues] = useState<string[]>([])
 
   return (
     <Box flexDirection="row" flexWrap="wrap" marginTop="s">
       {options.map(({ value, label }) => {
-        const index = selectedValues.indexOf(value);
-        const isSelected = index !== -1;
+        const index = selectedValues.indexOf(value)
+        const isSelected = index !== -1
         return (
           <Button
             key={value}
             variant={isSelected ? "primary" : "default"}
             onPress={() => {
               if (radio) {
-                setSelectedValues([value]);
+                setSelectedValues([value])
               } else {
                 if (isSelected) {
-                  selectedValues.splice(index, 1);
+                  selectedValues.splice(index, 1)
                 } else {
-                  selectedValues.push(value);
+                  selectedValues.push(value)
                 }
-                setSelectedValues([...selectedValues]);
+                setSelectedValues([...selectedValues])
               }
             }}
             label={label}
@@ -40,10 +40,10 @@ const CheckboxGroup = ({ options, radio }: CheckboxGroupProps) => {
               marginRight: spacing.s,
             }}
           />
-        );
+        )
       })}
     </Box>
-  );
-};
+  )
+}
 
-export default CheckboxGroup;
+export default CheckboxGroup

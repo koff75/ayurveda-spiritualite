@@ -1,15 +1,23 @@
 import Animated, {
-  block, cond, eq, set, add, startClock, spring, stopClock, call,
-} from "react-native-reanimated";
-import { State } from "react-native-gesture-handler";
-import { useClock, useValue, snapPoint } from "react-native-redash";
+  block,
+  cond,
+  eq,
+  set,
+  add,
+  startClock,
+  spring,
+  stopClock,
+  call,
+} from "react-native-reanimated"
+import { State } from "react-native-gesture-handler"
+import { useClock, useValue, snapPoint } from "react-native-redash/lib/module/v1"
 
 interface WithSpringParams {
-  value: Animated.Node<number>;
-  velocity: Animated.Node<number>;
-  state: Animated.Node<State>;
-  snapPoints: number[];
-  onSnap?: (values: readonly number[]) => void;
+  value: Animated.Node<number>
+  velocity: Animated.Node<number>
+  state: Animated.Node<State>
+  snapPoints: number[]
+  onSnap?: (values: readonly number[]) => void
 }
 
 export const useSpring = ({
@@ -19,14 +27,14 @@ export const useSpring = ({
   snapPoints,
   onSnap,
 }: WithSpringParams) => {
-  const offset = useValue(0);
-  const clock = useClock();
+  const offset = useValue(0)
+  const clock = useClock()
   const state = {
     position: useValue(0),
     finished: useValue(0),
     time: useValue(0),
     velocity: useValue(0),
-  };
+  }
   const config = {
     toValue: useValue(0),
     damping: 6,
@@ -35,7 +43,7 @@ export const useSpring = ({
     overshootClamping: useValue(0),
     restSpeedThreshold: useValue(0.01),
     restDisplacementThreshold: useValue(0.01),
-  };
+  }
   return block([
     cond(eq(gestureState, State.BEGAN), [
       set(offset, state.position),
@@ -46,10 +54,7 @@ export const useSpring = ({
     cond(eq(gestureState, State.ACTIVE), [
       set(state.position, add(offset, value)),
       set(state.velocity, velocity),
-      set(
-        config.toValue,
-        snapPoint(state.position, state.velocity, snapPoints)
-      ),
+      set(config.toValue, snapPoint(state.position, state.velocity, snapPoints)),
       cond(
         eq(config.toValue, 0),
         [
@@ -61,7 +66,7 @@ export const useSpring = ({
           set(config.overshootClamping, 1),
           set(config.restSpeedThreshold, 300),
           set(config.restDisplacementThreshold, 300),
-        ]
+        ],
       ),
     ]),
     cond(eq(gestureState, State.END), [
@@ -70,5 +75,5 @@ export const useSpring = ({
       cond(state.finished, [onSnap && call([state.position], onSnap)]),
     ]),
     state.position,
-  ]);
-};
+  ])
+}

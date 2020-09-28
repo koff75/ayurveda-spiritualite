@@ -1,28 +1,28 @@
-import React, { useState, ReactNode, Children } from "react";
-import { Dimensions } from "react-native";
-import { RectButton } from "react-native-gesture-handler";
-import Animated, { multiply } from "react-native-reanimated";
-import { mix, useTransition } from "react-native-redash";
-import { Box, Text, useTheme } from "../../components";
+import React, { useState, ReactNode, Children } from "react"
+import { Dimensions } from "react-native"
+import { RectButton } from "react-native-gesture-handler"
+import Animated, { multiply } from "react-native-reanimated"
+import { mix, useTransition } from "react-native-redash/lib/module/v1"
+import { Box, Text, useTheme } from "../../../components/base-components"
 
-const { width } = Dimensions.get("window");
+const { width } = Dimensions.get("window")
 
 interface Tab {
-  id: string;
-  title: string;
+  id: string
+  title: string
 }
 
 interface TabsProps {
-  tabs: Tab[];
-  children: ReactNode;
+  tabs: Tab[]
+  children: ReactNode
 }
 
 const Tabs = ({ tabs, children }: TabsProps) => {
-  const theme = useTheme();
-  const [index, setIndex] = useState(0);
-  const selectedTab = tabs[index];
-  const transition = useTransition(index);
-  const translateX = mix(transition, width * 0.25, width * 0.75);
+  const theme = useTheme()
+  const [index, setIndex] = useState(0)
+  const selectedTab = tabs[index]
+  const transition = useTransition(index)
+  const translateX = mix(transition, width * 0.25, width * 0.75)
 
   return (
     <Box flex={1}>
@@ -64,7 +64,7 @@ const Tabs = ({ tabs, children }: TabsProps) => {
         ))}
       </Animated.View>
     </Box>
-  );
-};
+  )
+}
 
-export default Tabs;
+export default Tabs
