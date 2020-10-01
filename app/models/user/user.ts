@@ -16,6 +16,7 @@ export const UserModel = types
     providerId: types.maybe(types.string),
     isLoggedIn: types.maybe(types.boolean),
     name: types.maybe(types.string),
+    action: types.maybe(types.string),
     // +... metrics: types.maybe(UserMetricsModel),
   })
   .extend(withEnvironment)

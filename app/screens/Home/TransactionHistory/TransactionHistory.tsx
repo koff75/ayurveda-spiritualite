@@ -36,7 +36,7 @@ const TransactionHistory = ({ navigation }: HomeNavigationProps<"TransactionHist
     <Box flex={1} backgroundColor="background">
       <Header
         title="Transaction History"
-        left={{ icon: "arrow-left", onPress: () => navigation.openDrawer() }}
+        left={{ icon: "arrow-left", onPress: () => true }}
         right={{ icon: "share", onPress: () => true }}
       />
       <Box flex={1} padding="m">

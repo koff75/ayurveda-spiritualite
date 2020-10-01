@@ -11,7 +11,6 @@ import { typography } from "../../theme"
 
 export const palette = {
   white: "#FFFFFF",
-  darkWhite: "#F0F3F5",
   cyan: "#2CB9B0",
   lightCyan: "#E7F9F7",
   darkBlue: "#0C0D34",

@@ -57,6 +57,11 @@ export const UserStoreModel = types
       self.user = {} as User
     }),
   }))
+  .actions((self) => ({
+    setAction: (action) => {
+      self.user.action = action
+    },
+  }))
 
 /**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).
