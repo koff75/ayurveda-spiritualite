@@ -31,23 +31,25 @@ export type RootParamList = {
 const Stack = createStackNavigator<RootParamList>()
 
 const RootStack = observer(function RootStack() {
-  const rootStore = useStores()
-  // rootStore.firebaseAuth()
-  /* */
+  const { userStore } = useStores()
   const [isLoading, setIsLoading] = React.useState(true)
 
   React.useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
     const unsubscribeAuth = auth.onAuthStateChanged(async (authUser) => {
       try {
-        await (authUser ? rootStore.setUser(authUser.uid) : rootStore.setUser(null))
+        await (authUser ? userStore.updateAuthState(authUser) : userStore.updateAuthState(null))
         setIsLoading(false)
-        console.log(`Use Effect -> compte trouvé ${authUser.email}`)
+        authUser
+          ? console.log(`Use Effect -> compte trouvé ${authUser.email}`)
+          : console.log(`Use Effect -> compte non trouvé`)
       } catch (error) {
+        // No user is connected. We clear the store
         console.log(error)
+        console.log("Erreur pas de User retrouvé...")
+        //rootStore.setUser("1") // boff
       }
     })
-
     // unsubscribe auth listener on unmount
     return unsubscribeAuth
   }, [])
@@ -60,8 +62,8 @@ const RootStack = observer(function RootStack() {
         gestureEnabled: true,
       }}
     >
-      {console.log("Load stack navigator")}
-      {rootStore.uid2 !== null || rootStore.uid2 !== "1" ? (
+      {console.log(`Load stack navigator pour uid : ${userStore.user.uid}`)}
+      {userStore.user.isLoggedIn ? (
         <>
           {console.log("homeStack")}
           <Stack.Screen
@@ -83,7 +85,7 @@ const RootStack = observer(function RootStack() {
               title: "Sign in",
               // When logging out, a pop animation feels intuitive
               // You can remove this if you want the default 'push' animation
-              animationTypeForReplace: rootStore.isSignout ? "pop" : "push",
+              // animationTypeForReplace: rootStore.isSignout ? "pop" : "push",
             }}
           />
         </>

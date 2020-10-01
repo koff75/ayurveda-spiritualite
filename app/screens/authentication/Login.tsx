@@ -31,7 +31,7 @@ const Login = observer(function Login() {
 
     try {
       await loginWithEmail(email, password)
-      // navigation.navigate("Home")
+      navigation.navigate("homeStack")
     } catch (error) {
       // setLoginError(error.message)
       console.log("Erreur loginWithEmail")

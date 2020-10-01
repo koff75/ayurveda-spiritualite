@@ -3,6 +3,7 @@ import { useTransition } from "react-native-redash/lib/module/v1"
 import { sub } from "react-native-reanimated"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
+import Constants from "expo-constants"
 
 import { Box, Header } from "../../../components/base-components"
 import Background from "./Background"
@@ -23,7 +24,7 @@ const OutfitIdeas = observer(function OutfitIdeas() {
   const animatedIndex = useTransition(currentIndex)
 
   return (
-    <Box flex={1} backgroundColor="background">
+    <Box flex={1} backgroundColor="background" style={{ paddingTop: Constants.statusBarHeight }}>
       {/* <Header
         title="Outfit Ideas"
         left={{ icon: "menu", onPress: () => navigation.openDrawer() }}

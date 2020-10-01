@@ -148,6 +148,8 @@ export class Reactotron {
         handler: () => {
           console.tron.log("resetting store")
           clear()
+          this.rootStore.userStore.reset()
+          // this.rootStore.navigationStore.reset()
         },
       })
 
@@ -168,6 +170,16 @@ export class Reactotron {
         handler: () => {
           console.tron.log("Going back")
           RootNavigation.goBack()
+        },
+      })
+
+      Tron.onCustomCommand({
+        title: "Reset User Store",
+        description: "Resets the user store",
+        command: "resetUserStore",
+        handler: () => {
+          console.tron.log("resetting the user store")
+          this.rootStore.userStore.reset()
         },
       })
 

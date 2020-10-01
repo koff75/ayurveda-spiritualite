@@ -4,6 +4,7 @@ import { Transitioning, Transition, TransitioningView } from "react-native-reani
 
 import { Box, Header, useTheme } from "../../../components/base-components"
 import { HomeNavigationProps } from "../../../components/base-components/Navigation"
+import { logout } from "../../../components/base-components/Firebase"
 
 import Outfit from "./Outfit"
 import TopCurve from "./TopCurve"
@@ -35,11 +36,21 @@ const FavoriteOutfits = ({ navigation }: HomeNavigationProps<"FavoriteOutfits">)
   const width = (wWidth - theme.spacing.m * 3) / 2
   const [footerHeight, setFooterHeight] = useState(0)
 
+  async function handleSignOut() {
+    try {
+      await logout()
+      console.log("Logout effectué!")
+    } catch (error) {
+      console.log(error)
+      console.log("Erreur lors du logout.")
+    }
+  }
+
   return (
     <Box flex={1} backgroundColor="background">
       <Header
         title="Favorite Outfits"
-        left={{ icon: "menu", onPress: () => navigation.openDrawer() }}
+        left={{ icon: "menu", onPress: () => handleSignOut() }}
         right={{ icon: "shopping-bag", onPress: () => true }}
       />
       <Box flex={1}>

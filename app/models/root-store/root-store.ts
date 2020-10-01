@@ -1,3 +1,4 @@
+import { UserStoreModel } from "../user-store/user-store"
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { auth } from "../../components/base-components/Firebase"
 
@@ -15,6 +16,7 @@ import { auth } from "../../components/base-components/Firebase"
 export const RootStoreModel = types
   .model("RootStore")
   .props({
+    userStore: types.optional(UserStoreModel, {}),
     uid2: types.optional(types.string, "1"),
   })
   .actions((self) => ({
@@ -28,7 +30,8 @@ export const RootStoreModel = types
   .actions((self) => ({
     setUser: (authUser) => {
       console.log("Action1 -> setUser")
-      self.uid2 = authUser
+      if (authUser === null) self.uid2 = "1"
+      else self.uid2 = authUser
       // console.log(authUser.providerData[0].email)
       // console.log(JSON.stringify(authUser))
 
