@@ -14,7 +14,7 @@ export const palette = {
   darkWhite: "#F0F3F5",
   cyan: "#2CB9B0",
   lightCyan: "#E7F9F7",
-  darkBlue: "#0C0D34",
+  darkBlue: "#3c4560", // "#0C0D34",
   orange: "#FE5E33",
   yellow: "#FFC641",
   pink: "#FF87A2",
@@ -41,10 +41,18 @@ const theme = createTheme({
     drawer2: palette.yellow,
     drawer3: palette.pink,
     drawer4: palette.violet,
+    // Pour test
+    black: "#000000",
+    darkWhite: palette.darkWhite,
+    darkGrey: palette.darkGrey,
+    subtitle: "rgba(255, 255, 255, 0.7)",
+    darkBlue: "#3c4560", // a supprimer car doublon
+    iconColor: "#546bfb",
   },
   spacing: {
     s: 8,
     m: 16,
+    ml: 20,
     l: 24,
     xl: 40,
   },
@@ -71,6 +79,11 @@ const theme = createTheme({
       fontFamily: typography.SFProSemiBold,
       fontSize: 24,
       lineHeight: 30,
+      color: "secondary",
+    },
+    title23: {
+      fontFamily: typography.SFProSemiBold,
+      fontSize: 20,
       color: "secondary",
     },
     title3: {

@@ -1,44 +1,35 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
 import {
   ScrollView,
   SafeAreaView,
   Animated,
   TouchableOpacity,
   Dimensions,
-} from "react-native";
-import {
-  Container,
-  CloseButton,
-  Subtitle,
-  Wrapper,
-  Header,
-  Logo,
-  Date,
-  DateContainer,
-  Item,
-  Title,
-  Text,
-} from "./styles";
-import { useStore } from "react-redux";
-import { Ionicons } from "@expo/vector-icons";
+  Image,
+} from "react-native"
+import { Box, Text } from "../../base-components"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../../models"
 
-import items from "../../data/notifications";
+import { Ionicons } from "@expo/vector-icons"
 
-let { width } = Dimensions.get("window");
-var cardWith = width - 40;
+import items from "../../../../data/notifications"
+
+const { width, height } = Dimensions.get("window")
+var cardWith = width - 40
 if (width > 500) {
-  cardWith = 460;
+  cardWith = 460
 }
 
-export default function Notifications() {
-  const [translateY, setTranslateY] = useState(new Animated.Value(30));
-  const [opacity, setOpacity] = useState(new Animated.Value(0));
-  const [top, setTop] = useState(new Animated.Value(3000));
+export const Notifications = observer(function Notifications() {
+  const { userStore } = useStores()
 
-  const store = useStore();
+  const [translateY, setTranslateY] = useState(new Animated.Value(30))
+  const [opacity, setOpacity] = useState(new Animated.Value(0))
+  const [top, setTop] = useState(new Animated.Value(3000))
 
   useEffect(() => {
-    if (store.getState().app.action == "openNotif") {
+    if (userStore.user.action === "openNotif") {
       Animated.parallel([
         Animated.spring(translateY, {
           toValue: 0,
@@ -54,10 +45,10 @@ export default function Notifications() {
           duration: 0,
           useNativeDriver: false,
         }),
-      ]).start();
+      ]).start()
     }
 
-    if (store.getState().app.action == "closeNotif") {
+    if (userStore.user.action === "closeNotif") {
       Animated.parallel([
         Animated.spring(translateY, {
           toValue: 30,
@@ -73,12 +64,12 @@ export default function Notifications() {
           duration: 0,
           useNativeDriver: false,
         }),
-      ]).start();
+      ]).start()
     }
-  }, [store.getState().app.action]);
+  }, [userStore.user.action])
 
   function closeNotif() {
-    store.dispatch({ type: "CLOSE_NOTIF" });
+    userStore.setAction("closeNotif")
   }
 
   return (
@@ -93,14 +84,29 @@ export default function Notifications() {
           zIndex: 100,
         }}
       >
-        <CloseButton style={{ elevation: 20 }}>
+        <Box
+          width={44}
+          height={44}
+          borderRadius="l"
+          backgroundColor="background"
+          justifyContent="center"
+          alignItems="center"
+          margin="s"
+          shadowOffset={{ width: 0, height: 5 }}
+          shadowColor="background2"
+          shadowOpacity={0.5}
+          shadowRadius={10}
+          elevation="ml"
+        >
           <Ionicons name="ios-close" size={44} color="#546bfb" />
-        </CloseButton>
+        </Box>
       </TouchableOpacity>
       <SafeAreaView>
         <ScrollView style={{ padding: 20 }}>
-          <Wrapper>
-            <Subtitle>New</Subtitle>
+          <Box alignSelf="center" width={cardWith} paddingTop={50}>
+            <Text variant="title3" textTransform="uppercase" color="darkGrey">
+              New
+            </Text>
             {items.map((item, index) => (
               <AnimatedItem
                 key={index}
@@ -109,22 +115,77 @@ export default function Notifications() {
                   transform: [{ translateY: translateY }],
                 }}
               >
-                <Header>
-                  <Logo source={{ uri: item.logo }} resizeMode="contain" />
-                  <Title>{item.title}</Title>
-                  <DateContainer>
-                    <Date>{item.date}</Date>
-                  </DateContainer>
-                </Header>
-                <Text>{item.text}</Text>
+                <Box flexDirection="row" alignItems="center">
+                  <Image
+                    source={{ uri: item.logo }}
+                    resizeMode="contain"
+                    style={{ width: 24, height: 24 }}
+                  />
+                  <Text variant="title23" marginLeft={8}>
+                    {item.title}
+                  </Text>
+                  <Box
+                    backgroundColor="iconColor"
+                    borderRadius={10}
+                    flexDirection="row"
+                    alignItems="center"
+                    paddingVertical={0}
+                    paddingHorizontal="s"
+                    position="absolute"
+                    top={0}
+                    right={0}
+                  >
+                    <Text variant="header" textTransform="uppercase" fontWeight="600">
+                      {item.date}
+                    </Text>
+                  </Box>
+                </Box>
+                <Text variant="body" marginTop={20}>
+                  {item.text}
+                </Text>
               </AnimatedItem>
             ))}
-          </Wrapper>
+          </Box>
         </ScrollView>
       </SafeAreaView>
     </AnimatedContainer>
-  );
+  )
+})
+
+// Class needed for the createAnimatedComponent
+class ItemBox extends React.Component {
+  render() {
+    return (
+      <Box
+        width={width}
+        padding={20}
+        backgroundColor="background"
+        borderRadius={10}
+        marginTop={20}
+        shadowOffset={{ width: 0, height: 5 }}
+        shadowColor="background2"
+        shadowOpacity={0.5}
+        shadowRadius={10}
+      />
+    )
+  }
 }
 
-const AnimatedItem = Animated.createAnimatedComponent(Item);
-const AnimatedContainer = Animated.createAnimatedComponent(Container);
+class ContainerBox extends React.Component {
+  render() {
+    return (
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        width={width}
+        height={height}
+        zIndex={100}
+        backgroundColor="darkWhite"
+      />
+    )
+  }
+}
+
+const AnimatedItem = Animated.createAnimatedComponent(ItemBox)
+const AnimatedContainer = Animated.createAnimatedComponent(ContainerBox)

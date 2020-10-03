@@ -9,16 +9,20 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { Ionicons } from "@expo/vector-icons"
 import { WelcomeScreen, DemoScreen, OnboardingScreen } from "../screens"
+/* Authentification */
 import Onboarding from "../screens/Authentication/Onboarding"
 import Welcome from "../screens/Authentication/Welcome"
 import Login from "../screens/Authentication/Login"
 import SignUp from "../screens/Authentication/SignUp"
 import ForgotPassword from "../screens/Authentication/ForgotPassword"
 import PasswordChanged from "../screens/Authentication/PasswordChanged"
+/* Home screens */
 import OutfitIdeas from "../screens/Home/OutfitIdeas"
 import FavoriteOutfits from "../screens/Home/FavoriteOutfits"
 import TransactionHistory from "../screens/Home/TransactionHistory"
 import EditProfile from "../screens/Home/EditProfile"
+/* Final home screens */
+import { Home } from "../screens/Home/HomeScreen/homeScreen"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -45,6 +49,8 @@ export type PrimaryParamList = {
   FavoriteOutfits: undefined
   TransactionHistory: undefined
   EditProfile: undefined
+  /* New Home */
+  Home: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -77,7 +83,7 @@ export function HomeNavigator() {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
 
-          if (route.name === "OutfitIdeas") {
+          if (route.name === "Home") {
             iconName = focused ? "ios-information-circle" : "ios-information-circle-outline"
           } else if (route.name === "FavoriteOutfits") {
             iconName = focused ? "ios-list-box" : "ios-list"
@@ -96,7 +102,7 @@ export function HomeNavigator() {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="OutfitIdeas" component={OutfitIdeas} />
+      <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="FavoriteOutfits" component={FavoriteOutfits} />
       <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
       <Tab.Screen name="EditProfile" component={EditProfile} />

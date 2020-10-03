@@ -58,7 +58,7 @@ export const UserStoreModel = types
     }),
   }))
   .actions((self) => ({
-    setAction: (action) => {
+    setAction: (action: string) => {
       self.user.action = action
     },
   }))

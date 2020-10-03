@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { StatusBar, StyleSheet, Platform, TouchableOpacity } from "react-native"
 import Animated, { Easing } from "react-native-reanimated"
-import { useDispatch, useSelector } from "react-redux"
+// import { useDispatch, useSelector } from "react-redux"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 
@@ -11,14 +11,14 @@ import { useNavigation } from "@react-navigation/native"
 
 import { Box, Header } from "../../../components/base-components"
 
-import Card from "../../../components/base2-components/Card"
-import Course from "../../../components/base2-components/Course"
-import Menu from "../../../components/base2-components/Menu"
-import Notifications from "../../../components/base2-components/Notifications"
-import Logo from "../../../components/base2-components/Logo"
-import Avatar from "../../../components/base2-components/Avatar"
-import logos from "../../../../data/logos"
-import courses from "../../../../data/courses"
+// import Card from "../../../components/base2-components/Card"
+// import Course from "../../../components/base2-components/Course"
+import { Menu } from "../../../components/base2-components/Menu"
+import { Notifications } from "../../../components/base2-components/Notifications"
+// import Logo from "../../../components/base2-components/Logo"
+// import Avatar from "../../../components/base2-components/Avatar"
+// import logos from "../../../../data/logos"
+// import courses from "../../../../data/courses"
 // import {
 //   TitleBar,
 //   Title,
@@ -84,7 +84,7 @@ export const Home = observer(function Home() {
   //   const action = useSelector((state) => state.app.action)
   //   const name = store.getState().app.name
 
-  const { loading, error, data } = useQuery(CardsQuery)
+  // const { loading, error, data } = useQuery(CardsQuery)
 
   function handleOpenMenu() {
     userStore.setAction("openMenu")
@@ -99,11 +99,14 @@ export const Home = observer(function Home() {
   }, [])
 
   useEffect(() => {
+    console.log(`Passage Home useEffect : ${userStore.user.action}`)
     if (userStore.user.action === "openMenu") {
+      console.log("H action: openMenu")
+
       Animated.timing(scale, {
         toValue: 0.9,
         duration: 300,
-        easing: Easing.in(),
+        easing: Easing.in,
         useNativeDriver: false,
       }).start()
 
@@ -115,11 +118,13 @@ export const Home = observer(function Home() {
       StatusBar.setBarStyle("light-content", true)
     }
 
-    if (userStore.user.action == "closeMenu") {
+    if (userStore.user.action === "closeMenu") {
+      console.log("H action: CloseMenu")
+
       Animated.timing(scale, {
         toValue: 1,
         duration: 300,
-        easing: Easing.in(),
+        easing: Easing.in,
         useNativeDriver: false,
       }).start()
       Animated.spring(opacity, {
@@ -129,7 +134,7 @@ export const Home = observer(function Home() {
 
       StatusBar.setBarStyle("dark-content", true)
     }
-  }, [userStore.user.action])
+  }, [userStore.user.action, userStore, userStore.user])
 
   function handleAvatar() {
     if (userStore.user.name) {
@@ -144,88 +149,11 @@ export const Home = observer(function Home() {
   }
 
   return (
-    <Box flex={1} backgroundColor="background">
-      <Menu />
-      <Notifications />
-      <Animated.View
-        style={[
-          styles.animatedContainer,
-          {
-            transform: [{ scale: scale }],
-            opacity: opacity,
-          },
-        ]}
-      >
-        <SaveAreaContainer>
-          <ScrollContainer showsVerticalScrollIndicator={false}>
-            {/* TITRE + CLOCHE NOTIF */}
-            <TitleBar>
-              <ButtonAvatar onPress={handleAvatar}>
-                <Avatar />
-              </ButtonAvatar>
-              <Title>Welcome back,</Title>
-              <Name>{name}</Name>
-              <TouchableOpacity
-                onPress={openNotif}
-                style={{ position: "absolute", right: 20, top: 0 }}
-              >
-                <NotificationButton />
-              </TouchableOpacity>
-            </TitleBar>
-            {/* SLIDER HORIZ 'Framer X, Figma...' */}
-            <ScrollLogo horizontal showsHorizontalScrollIndicator={false}>
-              {logos.map((item, index) => (
-                <Logo key={index} image={item.image} text={item.text} />
-              ))}
-            </ScrollLogo>
-            {/* SLIDER HORIZ '1st Card Continue learning' */}
-            <Subtitle>Continue Learning</Subtitle>
-            <ScrollCards horizontal showsHorizontalScrollIndicator={false}>
-              <CardsContainer>
-                {data &&
-                  data.cardsCollection.items.map((item, index) => (
-                    <ButtonCard
-                      key={index}
-                      activeOpacity={0.6}
-                      onPress={() =>
-                        navigation.navigate("Section", {
-                          section: item,
-                        })
-                      }
-                    >
-                      <Card
-                        title={item.title}
-                        caption={item.caption}
-                        subtitle={item.subtitle}
-                        image={item.image}
-                        logo={item.logo}
-                        author={item.author}
-                      />
-                    </ButtonCard>
-                  ))}
-              </CardsContainer>
-            </ScrollCards>
-            {/* SLIDER VERT '2nd Cards popular' */}
-            <Subtitle>Popular Courses</Subtitle>
-            <CoursesContainer>
-              {courses.map((item, index) => (
-                <Course
-                  key={index}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  image={item.image}
-                  logo={item.logo}
-                  caption={item.caption}
-                  avatar={item.avatar}
-                  author={item.author}
-                />
-              ))}
-            </CoursesContainer>
-          </ScrollContainer>
-        </SaveAreaContainer>
-      </Animated.View>
-      <StatusBar />
-      <ModalLogin />
+    <Box flex={1} backgroundColor="darkWhite">
+      <Box flex={1} backgroundColor="background">
+        <Menu />
+        <Notifications />
+      </Box>
     </Box>
   )
 })
