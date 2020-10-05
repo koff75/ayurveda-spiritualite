@@ -109,7 +109,7 @@ export const Notifications = observer(function Notifications() {
       </TouchableOpacity>
       <SafeAreaView>
         <ScrollView style={{ padding: 20 }}>
-          <Box width={cardWith} style={{ paddingTop: 50 }}>
+          <Box width={cardWith} style={{ paddingTop: 50, paddingBottom: 40 }}>
             <Text variant="title3" textTransform="uppercase" color="darkGrey">
               New
             </Text>
@@ -185,7 +185,6 @@ const styles = StyleSheet.create({
     elevation: 10,
     marginTop: 20,
     padding: 20,
-    paddingBottom: 25,
 
     shadowColor: "rgba(0, 0, 0, 0.15)",
     shadowOffset: {

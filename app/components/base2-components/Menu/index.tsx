@@ -56,7 +56,10 @@ export const Menu = observer(function Menu() {
   /* Popup menu with account, billing, learn, log out */
   const handleMenu = async (index) => {
     // I need to add the other index
-    if (index === 1) userStore.setAction("openMenu")
+    if (index === 1) {
+      console.log(`Button pressed : ${userStore.user.action}`)
+      userStore.setAction("openMenu")
+    }
     if (index === 3) {
       console.tron.log("Menu component: logging out...")
       try {
@@ -86,9 +89,10 @@ export const Menu = observer(function Menu() {
       <TouchableOpacity
         onPress={handleCloseMenu}
         style={{
-          flex: 1,
-          top: -23,
-          alignSelf: "stretch",
+          position: "absolute",
+          top: 120,
+          left: width / 2,
+          marginLeft: -22,
           zIndex: 1,
         }}
       >
@@ -98,6 +102,7 @@ export const Menu = observer(function Menu() {
           borderRadius="l"
           backgroundColor="background"
           alignItems="center"
+          alignContent="center"
           alignSelf="center"
           style={{
             shadowColor: colors.primary,

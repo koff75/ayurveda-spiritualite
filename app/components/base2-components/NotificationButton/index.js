@@ -18,9 +18,9 @@ export const NotificationButton = observer(function NotificationButton() {
         right={5}
         borderRadius="m"
         borderColor="background"
-        borderWidth="1.5"
+        borderWidth={1.5}
       >
-        <Text variant="button" color="background" fontWeight="700" fontSize="12">
+        <Text variant="button" color="background" fontSize={12}>
           3
         </Text>
       </Box>

@@ -49,6 +49,7 @@ import courses from "../../../../data/courses"
 import ModalLogin from "../../../components/base2-components/ModalLogin"
 import { NotificationButton } from "../../../components/base2-components/NotificationButton"
 import { storiesOf } from "@storybook/react-native"
+import { position } from "@shopify/restyle"
 
 // const CardsQuery = gql`
 //   {
@@ -197,7 +198,15 @@ export const Home = observer(function Home() {
               </TouchableOpacity>
             </Box>
             {/* SLIDER HORIZ 'Framer X, Figma...' */}
-
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ flexDirection: "row", padding: 20, paddingLeft: 12, paddingTop: 30 }}
+            >
+              {logos.map((item, index) => (
+                <Logo key={index} image={item.image} text={item.text} />
+              ))}
+            </ScrollView>
             {/* SLIDER HORIZ '1st Card Continue learning' */}
           </ScrollView>
         </SafeAreaView>
