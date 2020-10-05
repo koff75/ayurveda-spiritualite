@@ -1,18 +1,12 @@
-import React, { useState, useEffect } from "react";
-import {
-  TouchableWithoutFeedback,
-  Keyboard,
-  Alert,
-  Dimensions,
-  Animated
-} from "react-native";
+import React, { useState, useEffect } from "react"
+import { TouchableWithoutFeedback, Keyboard, Alert, Dimensions, Animated } from "react-native"
 // import Animated from 'react-native-reanimated';
-import { BlurView } from "expo-blur";
-import firebase from "../../firebase";
+import { BlurView } from "expo-blur"
+import firebase from "../../firebase"
 
-import Success from "../Success";
-import Loading from "../Loading";
-import { store } from "../../store";
+import Success from "../Success"
+import Loading from "../Loading"
+import { store } from "../../store"
 import {
   Container,
   Modal,
@@ -23,24 +17,24 @@ import {
   ButtonText,
   IconEmail,
   IconPassword,
-} from "./styles";
+} from "./styles"
 
-const { height } = Dimensions.get("window");
+const { height } = Dimensions.get("window")
 
 export default function ModalLogin() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [successful, setSuccessful] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [top, setTop] = useState(new Animated.Value(height));
-  const [scale, setScale] = useState(new Animated.Value(1.3));
-  const [translateY, setTranslateY] = useState(new Animated.Value(0));
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [successful, setSuccessful] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [top, setTop] = useState(new Animated.Value(height))
+  const [scale, setScale] = useState(new Animated.Value(1.3))
+  const [translateY, setTranslateY] = useState(new Animated.Value(0))
 
-  const defaultIconEmail = require("../../../assets/icon-email.png");
-  const defaultIconPassword = require("../../../assets/icon-password.png");
+  const defaultIconEmail = require("../../../assets/icon-email.png")
+  const defaultIconPassword = require("../../../assets/icon-password.png")
 
-  const [iconEmail, setIconEmail] = useState(defaultIconEmail);
-  const [iconPassword, setIconPassword] = useState(defaultIconPassword);
+  const [iconEmail, setIconEmail] = useState(defaultIconEmail)
+  const [iconPassword, setIconPassword] = useState(defaultIconPassword)
 
   useEffect(() => {
     if (store.getState().app.action === "openLogin") {
@@ -48,19 +42,19 @@ export default function ModalLogin() {
         toValue: 0,
         duration: 0,
         useNativeDriver: false,
-      }).start();
+      }).start()
 
       Animated.spring(scale, {
         toValue: 1,
         duration: 0,
         useNativeDriver: false,
-      }).start();
+      }).start()
 
       Animated.timing(translateY, {
         toValue: 0,
         duration: 0,
         useNativeDriver: false,
-      }).start();
+      }).start()
     }
 
     if (store.getState().app.action === "closeLogin") {
@@ -69,69 +63,69 @@ export default function ModalLogin() {
           toValue: height,
           duration: 0,
           useNativeDriver: false,
-        }).start();
+        }).start()
 
         Animated.spring(scale, {
           toValue: 1.3,
           duration: 0,
           useNativeDriver: false,
-        }).start();
-      }, 500);
+        }).start()
+      }, 500)
 
       Animated.timing(translateY, {
         toValue: 1000,
         duration: 500,
         useNativeDriver: false,
-      }).start();
+      }).start()
     }
-  }, [store.getState().app.action]);
+  }, [store.getState().app.action])
 
   function handleLogin() {
-    setLoading(true);
+    setLoading(true)
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch(function (err) {
-        Alert.alert("Error", err.message);
+        Alert.alert("Error", err.message)
       })
       .then((response) => {
-        setLoading(false);
+        setLoading(false)
 
         if (response) {
-          setSuccessful(true);
+          setSuccessful(true)
 
-          Alert.alert("Congrats", "You've logged successfully");
+          Alert.alert("Congrats", "You've logged successfully")
 
           store.dispatch({
             type: "SET_NAME",
             name: response.user.email,
-          });
+          })
 
           setTimeout(() => {
-            store.dispatch({ type: "CLOSE_LOGIN" });
-            setSuccessful(false);
-          }, 1000);
+            store.dispatch({ type: "CLOSE_LOGIN" })
+            setSuccessful(false)
+          }, 1000)
         }
-      });
+      })
   }
 
   function focusEmail() {
-    setIconEmail(require("../../../assets/icon-email-animated.gif"));
-    setIconPassword(defaultIconPassword);
+    setIconEmail(require("../../../assets/icon-email-animated.gif"))
+    setIconPassword(defaultIconPassword)
   }
 
   function focusPassword() {
-    setIconPassword(require("../../../assets/icon-password-animated.gif"));
-    setIconEmail(defaultIconEmail);
+    setIconPassword(require("../../../assets/icon-password-animated.gif"))
+    setIconEmail(defaultIconEmail)
   }
 
   function tapBackground() {
-    Keyboard.dismiss();
+    Keyboard.dismiss()
 
     store.dispatch({
       type: "CLOSE_LOGIN",
-    });
+    })
   }
 
   return (
@@ -148,9 +142,7 @@ export default function ModalLogin() {
         />
       </TouchableWithoutFeedback>
 
-      <AnimatedModal
-        style={{ transform: [{ scale: scale }, { translateY: translateY }] }}
-      >
+      <AnimatedModal style={{ transform: [{ scale: scale }, { translateY: translateY }] }}>
         <Logo source={require("../../../assets/logo-dc.png")} />
         <Text>Start Learning. Access Pro Content</Text>
 
@@ -178,9 +170,9 @@ export default function ModalLogin() {
       <Success isActive={successful} />
       <Loading isActive={loading} />
     </AnimatedContainer>
-  );
+  )
 }
 
-const AnimatedContainer = Animated.createAnimatedComponent(Container);
+const AnimatedContainer = Animated.createAnimatedComponent(Container)
 
-const AnimatedModal = Animated.createAnimatedComponent(Modal);
+const AnimatedModal = Animated.createAnimatedComponent(Modal)

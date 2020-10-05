@@ -13,7 +13,7 @@ import { useStores } from "../../../models"
 const { height, width } = Dimensions.get("window")
 
 const CONTAINER: ViewStyle = {
-  ...StyleSheet.absoluteFillObject,
+  position: "absolute",
   backgroundColor: "#FFFF",
   width: width,
   height: height,
@@ -50,14 +50,13 @@ export const Menu = observer(function Menu() {
   }, [userStore.user.action])
 
   function handleCloseMenu() {
-    console.log("handleCloseMenu() setAction closeMenu")
     userStore.setAction("closeMenu")
   }
 
   /* Popup menu with account, billing, learn, log out */
   const handleMenu = async (index) => {
     // I need to add the other index
-    if (index === 1) console.log("Button 1 pressed !")
+    if (index === 1) userStore.setAction("openMenu")
     if (index === 3) {
       console.tron.log("Menu component: logging out...")
       try {
@@ -140,7 +139,7 @@ const items = [
   },
   {
     icon: "ios-compass",
-    title: "Learn React",
+    title: "Learning",
     text: "start course",
   },
   {

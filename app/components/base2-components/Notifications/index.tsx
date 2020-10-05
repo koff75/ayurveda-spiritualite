@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useState, useEffect } from "react"
 import {
   ScrollView,
@@ -6,6 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  StyleSheet,
 } from "react-native"
 import { Box, Text } from "../../base-components"
 import { observer } from "mobx-react-lite"
@@ -14,9 +16,10 @@ import { useStores } from "../../../models"
 import { Ionicons } from "@expo/vector-icons"
 
 import items from "../../../../data/notifications"
+import { withBouncing } from "react-native-redash"
 
 const { width, height } = Dimensions.get("window")
-var cardWith = width - 40
+let cardWith = width - 40
 if (width > 500) {
   cardWith = 460
 }
@@ -29,7 +32,9 @@ export const Notifications = observer(function Notifications() {
   const [top, setTop] = useState(new Animated.Value(3000))
 
   useEffect(() => {
+    console.log(`Passage Notif useEffect : ${userStore.user.action}`)
     if (userStore.user.action === "openNotif") {
+      console.log("Notification file Open")
       Animated.parallel([
         Animated.spring(translateY, {
           toValue: 0,
@@ -49,6 +54,7 @@ export const Notifications = observer(function Notifications() {
     }
 
     if (userStore.user.action === "closeNotif") {
+      console.log("Notification file Close")
       Animated.parallel([
         Animated.spring(translateY, {
           toValue: 30,
@@ -73,13 +79,13 @@ export const Notifications = observer(function Notifications() {
   }
 
   return (
-    <AnimatedContainer style={{ top: top }}>
+    <Animated.View style={[styles.container, { top: top }]}>
       <TouchableOpacity
         onPress={closeNotif}
         style={{
           position: "absolute",
           top: 40,
-          left: "50%",
+          left: width / 2,
           marginLeft: -22,
           zIndex: 100,
         }}
@@ -93,27 +99,30 @@ export const Notifications = observer(function Notifications() {
           alignItems="center"
           margin="s"
           shadowOffset={{ width: 0, height: 5 }}
-          shadowColor="background2"
-          shadowOpacity={0.5}
-          shadowRadius={10}
-          elevation="ml"
+          shadowColor="darkGrey"
+          shadowOpacity={0.3}
+          shadowRadius={6}
+          elevation={10}
         >
           <Ionicons name="ios-close" size={44} color="#546bfb" />
         </Box>
       </TouchableOpacity>
       <SafeAreaView>
         <ScrollView style={{ padding: 20 }}>
-          <Box alignSelf="center" width={cardWith} paddingTop={50}>
+          <Box width={cardWith} style={{ paddingTop: 50 }}>
             <Text variant="title3" textTransform="uppercase" color="darkGrey">
               New
             </Text>
             {items.map((item, index) => (
-              <AnimatedItem
+              <Animated.View
                 key={index}
-                style={{
-                  opacity: opacity,
-                  transform: [{ translateY: translateY }],
-                }}
+                style={[
+                  styles.item,
+                  {
+                    opacity: opacity,
+                    transform: [{ translateY: translateY }],
+                  },
+                ]}
               >
                 <Box flexDirection="row" alignItems="center">
                   <Image
@@ -121,47 +130,86 @@ export const Notifications = observer(function Notifications() {
                     resizeMode="contain"
                     style={{ width: 24, height: 24 }}
                   />
-                  <Text variant="title23" marginLeft={8}>
+                  <Text variant="title23" marginLeft="s">
                     {item.title}
                   </Text>
                   <Box
                     backgroundColor="iconColor"
-                    borderRadius={10}
+                    borderRadius="m"
                     flexDirection="row"
                     alignItems="center"
-                    paddingVertical={0}
+                    paddingVertical="null"
                     paddingHorizontal="s"
                     position="absolute"
                     top={0}
                     right={0}
                   >
-                    <Text variant="header" textTransform="uppercase" fontWeight="600">
+                    <Text
+                      variant="header"
+                      textTransform="uppercase"
+                      fontWeight="600"
+                      color="background"
+                    >
                       {item.date}
                     </Text>
                   </Box>
                 </Box>
-                <Text variant="body" marginTop={20}>
+                <Text variant="body" marginTop="ml">
                   {item.text}
                 </Text>
-              </AnimatedItem>
+              </Animated.View>
             ))}
           </Box>
         </ScrollView>
       </SafeAreaView>
-    </AnimatedContainer>
+    </Animated.View>
   )
 })
 
+const styles = StyleSheet.create({
+  // eslint-disable-next-line react-native/no-color-literals
+  container: {
+    backgroundColor: "#f0f3f5",
+    bottom: 0,
+    height: height,
+    left: 0,
+    position: "absolute",
+    top: 0,
+    width: width,
+    zIndex: 100,
+  },
+  // eslint-disable-next-line react-native/no-color-literals
+  item: {
+    backgroundColor: "#FFFF",
+    borderRadius: 10,
+    elevation: 10,
+    marginTop: 20,
+    padding: 20,
+    paddingBottom: 25,
+
+    shadowColor: "rgba(0, 0, 0, 0.15)",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    width: cardWith,
+  },
+})
+
+/* DELETE !!!! */
 // Class needed for the createAnimatedComponent
 class ItemBox extends React.Component {
   render() {
     return (
       <Box
         width={width}
-        padding={20}
+        padding="ml"
         backgroundColor="background"
-        borderRadius={10}
-        marginTop={20}
+        borderRadius="m"
+        marginTop="ml"
         shadowOffset={{ width: 0, height: 5 }}
         shadowColor="background2"
         shadowOpacity={0.5}
@@ -170,7 +218,7 @@ class ItemBox extends React.Component {
     )
   }
 }
-
+/* DELETE !!!! */
 class ContainerBox extends React.Component {
   render() {
     return (
@@ -178,6 +226,7 @@ class ContainerBox extends React.Component {
         position="absolute"
         top={0}
         left={0}
+        bottom={0}
         width={width}
         height={height}
         zIndex={100}
@@ -186,6 +235,6 @@ class ContainerBox extends React.Component {
     )
   }
 }
-
+/* DELETE !!!! */
 const AnimatedItem = Animated.createAnimatedComponent(ItemBox)
 const AnimatedContainer = Animated.createAnimatedComponent(ContainerBox)

@@ -50,6 +50,7 @@ const theme = createTheme({
     iconColor: "#546bfb",
   },
   spacing: {
+    null: 0,
     s: 8,
     m: 16,
     ml: 20,
@@ -112,6 +113,30 @@ const theme = createTheme({
   breakpoints: {
     phone: 0,
     tablet: 768,
+  },
+  cardVariants: {
+    defaults: {
+      // We can define defaults for the variant here.
+      // This will be applied after the defaults passed to createVariant and before the variant defined below.
+    },
+    regular: {
+      // We can refer to other values in the theme here, and use responsive props
+      padding: {
+        phone: "s",
+        tablet: "m",
+      },
+    },
+    elevated: {
+      padding: {
+        phone: "s",
+        tablet: "m",
+      },
+      shadowColor: "#000000",
+      shadowOpacity: 0.2,
+      shadowOffset: { width: 0, height: 10 },
+      shadowRadius: 15,
+      elevation: 5,
+    },
   },
 })
 

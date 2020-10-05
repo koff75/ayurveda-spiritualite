@@ -1,6 +1,17 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, { useEffect, useState } from "react"
-import { StatusBar, StyleSheet, Platform, TouchableOpacity } from "react-native"
-import Animated, { Easing } from "react-native-reanimated"
+import {
+  StatusBar,
+  StyleSheet,
+  Platform,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+  Dimensions,
+  Easing,
+  Animated,
+} from "react-native"
+// import Animated, { Easing } from "react-native-reanimated"
 // import { useDispatch, useSelector } from "react-redux"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
@@ -9,16 +20,16 @@ import { useNavigation } from "@react-navigation/native"
 // import gql from "graphql-tag"
 // import { useQuery } from "@apollo/react-hooks"
 
-import { Box, Header } from "../../../components/base-components"
+import { Box, Header, Text } from "../../../components/base-components"
 
 // import Card from "../../../components/base2-components/Card"
 // import Course from "../../../components/base2-components/Course"
 import { Menu } from "../../../components/base2-components/Menu"
 import { Notifications } from "../../../components/base2-components/Notifications"
-// import Logo from "../../../components/base2-components/Logo"
-// import Avatar from "../../../components/base2-components/Avatar"
-// import logos from "../../../../data/logos"
-// import courses from "../../../../data/courses"
+import Logo from "../../../components/base2-components/Logo"
+import Avatar from "../../../components/base2-components/Avatar"
+import logos from "../../../../data/logos"
+import courses from "../../../../data/courses"
 // import {
 //   TitleBar,
 //   Title,
@@ -36,7 +47,7 @@ import { Notifications } from "../../../components/base2-components/Notification
 // } from "./styles"
 // import { store } from "../../store"
 import ModalLogin from "../../../components/base2-components/ModalLogin"
-import NotificationButton from "../../../components/base2-components/NotificationButton"
+import { NotificationButton } from "../../../components/base2-components/NotificationButton"
 import { storiesOf } from "@storybook/react-native"
 
 // const CardsQuery = gql`
@@ -72,6 +83,7 @@ import { storiesOf } from "@storybook/react-native"
 //     }
 //   }
 // `
+const { width, height } = Dimensions.get("window")
 
 export const Home = observer(function Home() {
   const [scale, setScale] = useState(new Animated.Value(1))
@@ -106,7 +118,7 @@ export const Home = observer(function Home() {
       Animated.timing(scale, {
         toValue: 0.9,
         duration: 300,
-        easing: Easing.in,
+        easing: Easing.in(Easing.bounce),
         useNativeDriver: false,
       }).start()
 
@@ -124,7 +136,7 @@ export const Home = observer(function Home() {
       Animated.timing(scale, {
         toValue: 1,
         duration: 300,
-        easing: Easing.in,
+        easing: Easing.in(Easing.bounce),
         useNativeDriver: false,
       }).start()
       Animated.spring(opacity, {
@@ -134,10 +146,10 @@ export const Home = observer(function Home() {
 
       StatusBar.setBarStyle("dark-content", true)
     }
-  }, [userStore.user.action, userStore, userStore.user])
+  }, [userStore.user.action])
 
   function handleAvatar() {
-    if (userStore.user.name) {
+    if (userStore.user) {
       userStore.setAction("openMenu")
     } else {
       userStore.setAction("openLogin")
@@ -149,11 +161,48 @@ export const Home = observer(function Home() {
   }
 
   return (
-    <Box flex={1} backgroundColor="darkWhite">
-      <Box flex={1} backgroundColor="background">
-        <Menu />
-        <Notifications />
-      </Box>
+    <Box flex={1} backgroundColor="black">
+      <Menu />
+      <Notifications />
+      <Animated.View
+        style={[
+          styles.animatedContainer,
+          {
+            transform: [{ scale: scale }],
+            opacity: opacity,
+          },
+        ]}
+      >
+        <SafeAreaView>
+          <ScrollView showsVerticalScrollIndicator={false} style={{ paddingBottom: 30 }}>
+            {/* TITRE + CLOCHE NOTIF */}
+            <Box width={width} style={{ marginTop: 40, paddingLeft: 80 }}>
+              <TouchableOpacity
+                onPress={handleAvatar}
+                style={{ marginLeft: 20, position: "absolute", top: 0, left: 0 }}
+              >
+                <Avatar />
+              </TouchableOpacity>
+              <Text variant="body" style={{ color: "#b8bece" }}>
+                Welcome back,
+              </Text>
+              <Text variant="title23" color="darkBlue">
+                Nicolas Barthere
+              </Text>
+              <TouchableOpacity
+                onPress={openNotif}
+                style={{ position: "absolute", right: 20, top: 0 }}
+              >
+                <NotificationButton />
+              </TouchableOpacity>
+            </Box>
+            {/* SLIDER HORIZ 'Framer X, Figma...' */}
+
+            {/* SLIDER HORIZ '1st Card Continue learning' */}
+          </ScrollView>
+        </SafeAreaView>
+      </Animated.View>
+      <StatusBar />
     </Box>
   )
 })
