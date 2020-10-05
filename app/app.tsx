@@ -26,6 +26,9 @@ import {
   useNavigationPersistence,
 } from "./navigation"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
+// Apollo imports:
+import ApolloClient from "apollo-boost"
+import { ApolloProvider } from "@apollo/react-hooks"
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
@@ -34,6 +37,15 @@ import { enableScreens } from "react-native-screens"
 enableScreens()
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
+
+// Appollo client:
+const client = new ApolloClient({
+  uri: "https://graphql.contentful.com/content/v1/spaces/ldcl3ayg0mhx",
+  credentials: "same-origin",
+  headers: {
+    Authorization: `Bearer 93f3808c25c1f5bdb95476ca8576c6eaa12b5587efb956efb242ceead7cb3840`,
+  },
+})
 
 /**
  * This is the root component of our app.
@@ -69,15 +81,17 @@ function App() {
   // otherwise, we're ready to render the app
   return (
     <ThemeProvider>
-      <RootStoreProvider value={rootStore}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <RootNavigator
-            ref={navigationRef}
-            initialState={initialNavigationState}
-            onStateChange={onNavigationStateChange}
-          />
-        </SafeAreaProvider>
-      </RootStoreProvider>
+      <ApolloProvider client={client}>
+        <RootStoreProvider value={rootStore}>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+            <RootNavigator
+              ref={navigationRef}
+              initialState={initialNavigationState}
+              onStateChange={onNavigationStateChange}
+            />
+          </SafeAreaProvider>
+        </RootStoreProvider>
+      </ApolloProvider>
     </ThemeProvider>
   )
 }

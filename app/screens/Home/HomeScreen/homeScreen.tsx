@@ -17,12 +17,12 @@ import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 
 import { useNavigation } from "@react-navigation/native"
-// import gql from "graphql-tag"
-// import { useQuery } from "@apollo/react-hooks"
+import gql from "graphql-tag"
+import { useQuery } from "@apollo/react-hooks"
 
 import { Box, Header, Text } from "../../../components/base-components"
 
-// import Card from "../../../components/base2-components/Card"
+import Card from "../../../components/base2-components/Card"
 // import Course from "../../../components/base2-components/Course"
 import { Menu } from "../../../components/base2-components/Menu"
 import { Notifications } from "../../../components/base2-components/Notifications"
@@ -51,39 +51,39 @@ import { NotificationButton } from "../../../components/base2-components/Notific
 import { storiesOf } from "@storybook/react-native"
 import { position } from "@shopify/restyle"
 
-// const CardsQuery = gql`
-//   {
-//     cardsCollection {
-//       items {
-//         title
-//         subtitle
-//         image {
-//           title
-//           description
-//           contentType
-//           fileName
-//           size
-//           url
-//           width
-//           height
-//         }
-//         subtitle
-//         caption
-//         logo {
-//           title
-//           description
-//           contentType
-//           fileName
-//           size
-//           url
-//           width
-//           height
-//         }
-//         content
-//       }
-//     }
-//   }
-// `
+const CardsQuery = gql`
+  {
+    cardsCollection {
+      items {
+        title
+        subtitle
+        image {
+          title
+          description
+          contentType
+          fileName
+          size
+          url
+          width
+          height
+        }
+        subtitle
+        caption
+        logo {
+          title
+          description
+          contentType
+          fileName
+          size
+          url
+          width
+          height
+        }
+        content
+      }
+    }
+  }
+`
 const { width, height } = Dimensions.get("window")
 
 export const Home = observer(function Home() {
@@ -97,7 +97,7 @@ export const Home = observer(function Home() {
   //   const action = useSelector((state) => state.app.action)
   //   const name = store.getState().app.name
 
-  // const { loading, error, data } = useQuery(CardsQuery)
+  const { loading, error, data } = useQuery(CardsQuery)
 
   function handleOpenMenu() {
     userStore.setAction("openMenu")
@@ -208,6 +208,45 @@ export const Home = observer(function Home() {
               ))}
             </ScrollView>
             {/* SLIDER HORIZ '1st Card Continue learning' */}
+            <Text
+              variant="button"
+              marginLeft="ml"
+              marginTop="ml"
+              textTransform="uppercase"
+              style={{ color: "#b8b3ce" }}
+            >
+              Continue Learning
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={{ paddingBottom: 30 }}
+            >
+              <Box flexDirection="row" style={{ paddingLeft: 5 }}>
+                {data &&
+                  data.cardsCollection.items.map((item, index) => (
+                    <TouchableOpacity
+                      key={index}
+                      activeOpacity={0.6}
+                      onPress={() =>
+                        navigation.navigate("Section", {
+                          section: item,
+                        })
+                      }
+                    >
+                      <Card
+                        title={item.title}
+                        caption={item.caption}
+                        subtitle={item.subtitle}
+                        image={item.image}
+                        logo={item.logo}
+                        author={item.author}
+                      />
+                    </TouchableOpacity>
+                  ))}
+              </Box>
+            </ScrollView>
+            {/* SLIDER VERT '2nd Cards popular' */}
           </ScrollView>
         </SafeAreaView>
       </Animated.View>
