@@ -247,6 +247,21 @@ export const Home = observer(function Home() {
               </Box>
             </ScrollView>
             {/* SLIDER VERT '2nd Cards popular' */}
+            <Subtitle>Popular Courses</Subtitle>
+            <CoursesContainer>
+              {courses.map((item, index) => (
+                <Course
+                  key={index}
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  image={item.image}
+                  logo={item.logo}
+                  caption={item.caption}
+                  avatar={item.avatar}
+                  author={item.author}
+                />
+              ))}
+            </CoursesContainer>
           </ScrollView>
         </SafeAreaView>
       </Animated.View>
