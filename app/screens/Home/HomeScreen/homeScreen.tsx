@@ -23,29 +23,14 @@ import { useQuery } from "@apollo/react-hooks"
 import { Box, Header, Text } from "../../../components/base-components"
 
 import Card from "../../../components/base2-components/Card"
-// import Course from "../../../components/base2-components/Course"
+import Course from "../../../components/base2-components/Course"
 import { Menu } from "../../../components/base2-components/Menu"
 import { Notifications } from "../../../components/base2-components/Notifications"
 import Logo from "../../../components/base2-components/Logo"
 import Avatar from "../../../components/base2-components/Avatar"
 import logos from "../../../../data/logos"
 import courses from "../../../../data/courses"
-// import {
-//   TitleBar,
-//   Title,
-//   Name,
-//   Subtitle,
-//   ScrollContainer,
-//   SaveAreaContainer,
-//   ScrollLogo,
-//   ScrollCards,
-//   ButtonAvatar,
-//   RootView,
-//   ButtonCard,
-//   CardsContainer,
-//   CoursesContainer,
-// } from "./styles"
-// import { store } from "../../store"
+
 import ModalLogin from "../../../components/base2-components/ModalLogin"
 import { NotificationButton } from "../../../components/base2-components/NotificationButton"
 import { storiesOf } from "@storybook/react-native"
@@ -247,8 +232,16 @@ export const Home = observer(function Home() {
               </Box>
             </ScrollView>
             {/* SLIDER VERT '2nd Cards popular' */}
-            <Subtitle>Popular Courses</Subtitle>
-            <CoursesContainer>
+            <Text
+              variant="body"
+              textTransform="uppercase"
+              marginLeft="ml"
+              marginTop="ml"
+              style={{ color: "#b8b3ce" }}
+            >
+              Popular Courses
+            </Text>
+            <Box flexDirection="row" flexWrap="wrap" style={{ paddingLeft: 10 }}>
               {courses.map((item, index) => (
                 <Course
                   key={index}
@@ -261,7 +254,7 @@ export const Home = observer(function Home() {
                   author={item.author}
                 />
               ))}
-            </CoursesContainer>
+            </Box>
           </ScrollView>
         </SafeAreaView>
       </Animated.View>

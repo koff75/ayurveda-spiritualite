@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-color-literals */
 /* eslint-disable react-native/no-inline-styles */
 import React from "react"
-import { Box, Text } from "../../../components/base-components"
+import { Box, Text } from "../../base-components"
 import { Dimensions, Image } from "react-native"
 
 const { width, height } = Dimensions.get("window")
@@ -54,7 +54,7 @@ export default function Card(props) {
           </Text>
           <Text
             variant="body"
-            fontStyle={15}
+            fontSize={15}
             textTransform="uppercase"
             style={{ color: "#b8bece", marginTop: 4 }}
           >

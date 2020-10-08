@@ -1,12 +1,13 @@
-import React from "react";
-import { Container } from "./styles";
-import Course from "../Course";
+import React from "react"
+import { Box, Text } from "../../base-components"
+import { Container } from "./styles"
+import Course from "../Course"
 
-import courses from "../../data/courses";
+import courses from "../../../../data/courses"
 
 export default function CoursesList() {
   return (
-    <Container>
+    <Box style={{ flexDirection: "row", alignItems: "center", flexWrap: "wrap", paddingLeft: 10 }}>
       {courses.map((course, index) => (
         <Course
           key={index}
@@ -19,6 +20,6 @@ export default function CoursesList() {
           caption={course.caption}
         />
       ))}
-    </Container>
-  );
+    </Box>
+  )
 }

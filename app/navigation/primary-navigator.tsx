@@ -23,6 +23,8 @@ import TransactionHistory from "../screens/Home/TransactionHistory"
 import EditProfile from "../screens/Home/EditProfile"
 /* Final home screens */
 import { Home } from "../screens/Home/HomeScreen/homeScreen"
+import HomeStack from "./homeStack"
+import Courses from "../screens/Home/Courses/coursesScreen"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -49,37 +51,22 @@ export type PrimaryParamList = {
   FavoriteOutfits: undefined
   TransactionHistory: undefined
   EditProfile: undefined
-  /* New Home */
+  /* New Main */
   Home: undefined
+  Courses: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createStackNavigator<PrimaryParamList>()
 
-export function AuthNavigator() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: true,
-      }}
-    >
-      <Stack.Screen name="Onboarding" component={Onboarding} />
-      <Stack.Screen name="Welcome" component={Welcome} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-      <Stack.Screen name="PasswordChanged" component={PasswordChanged} />
-    </Stack.Navigator>
-  )
-}
-
 const Tab = createBottomTabNavigator<PrimaryParamList>()
 
-export function HomeNavigator() {
+/* Main navigator */
+export function MainNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
+        // eslint-disable-next-line react/display-name
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
 
@@ -102,11 +89,31 @@ export function HomeNavigator() {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Courses" component={Courses} />
       <Tab.Screen name="FavoriteOutfits" component={FavoriteOutfits} />
       <Tab.Screen name="TransactionHistory" component={TransactionHistory} />
       <Tab.Screen name="EditProfile" component={EditProfile} />
     </Tab.Navigator>
+  )
+}
+
+/* Authentification navigator */
+export function AuthNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        gestureEnabled: true,
+      }}
+    >
+      <Stack.Screen name="Onboarding" component={Onboarding} />
+      <Stack.Screen name="Welcome" component={Welcome} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+      <Stack.Screen name="PasswordChanged" component={PasswordChanged} />
+    </Stack.Navigator>
   )
 }
 

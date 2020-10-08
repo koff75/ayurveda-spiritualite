@@ -7,7 +7,7 @@
 import React from "react"
 import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
 import { createStackNavigator } from "@react-navigation/stack"
-import { HomeNavigator, AuthNavigator } from "./primary-navigator"
+import { MainNavigator, AuthNavigator } from "./primary-navigator"
 import { useStores } from "../models"
 import { SlideFromRightIOS } from "react-navigation-stack/lib/typescript/src/vendor/TransitionConfigs/TransitionPresets"
 import { auth } from "../components/base-components/Firebase"
@@ -24,7 +24,7 @@ import { observer } from "mobx-react-lite"
  *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
  */
 export type RootParamList = {
-  homeStack: undefined
+  mainStack: undefined
   authStack: undefined
 }
 
@@ -65,10 +65,10 @@ const RootStack = observer(function RootStack() {
       {console.log(`Load stack navigator pour uid : ${userStore.user.uid}`)}
       {userStore.user.isLoggedIn ? (
         <>
-          {console.log("homeStack")}
+          {console.log("mainStack")}
           <Stack.Screen
-            name="homeStack"
-            component={HomeNavigator}
+            name="mainStack"
+            component={MainNavigator}
             options={{
               headerShown: false,
             }}
