@@ -10,6 +10,7 @@ import {
   Dimensions,
   Easing,
   Animated,
+  Alert,
 } from "react-native"
 // import Animated, { Easing } from "react-native-reanimated"
 // import { useDispatch, useSelector } from "react-redux"
@@ -35,6 +36,8 @@ import ModalLogin from "../../../components/base2-components/ModalLogin"
 import { NotificationButton } from "../../../components/base2-components/NotificationButton"
 import { storiesOf } from "@storybook/react-native"
 import { position } from "@shopify/restyle"
+
+import ContentLoader, { Rect, Circle } from "react-content-loader/native"
 
 const CardsQuery = gql`
   {
@@ -85,7 +88,31 @@ export const Home = observer(function Home() {
   //   const action = useSelector((state) => state.app.action)
   //   const name = store.getState().app.name
 
+  // Fetch Contentful API
   const { loading, error, data } = useQuery(CardsQuery)
+  const MyLoader = () => {
+    return (
+      <Box padding="m">
+        <ContentLoader
+          speed={2}
+          width={300}
+          height={280}
+          viewBox="0 0 335 280"
+          backgroundColor="#ded9d9"
+          foregroundColor="#aaa7a7"
+        >
+          <Rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
+          <Rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
+          <Rect x="0" y="62" rx="3" ry="3" width="410" height="6" />
+          <Rect x="0" y="85" rx="3" ry="3" width="380" height="6" />
+          <Rect x="0" y="110" rx="3" ry="3" width="335" height="280" />
+          <Circle cx="20" cy="20" r="20" />
+        </ContentLoader>
+      </Box>
+    )
+  }
+  if (error) return Alert.alert("Check your network...")
+  //if (!data) return Alert.alert("Content not found!")
 
   function handleOpenMenu() {
     userStore.setAction("openMenu")
@@ -211,6 +238,9 @@ export const Home = observer(function Home() {
               style={{ paddingBottom: 0 }}
             >
               <Box flexDirection="row" style={{ paddingLeft: 5 }}>
+                {loading && MyLoader()}
+                {loading && MyLoader()}
+
                 {data &&
                   data.meditateCourseCollection.items.map((item, index) => (
                     <TouchableOpacity
