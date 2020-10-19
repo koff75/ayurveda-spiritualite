@@ -1,27 +1,43 @@
 const logos = [
   {
     image: require("../assets/img/logo-framerx.png"),
-    text: "Framer X",
+    text: "Happy",
   },
   {
     image: require("../assets/img/logo-figma.png"),
-    text: "Figma",
+    text: "Sad",
   },
   {
     image: require("../assets/img/logo-studio.png"),
-    text: "Studio",
+    text: "Heartbreak",
   },
   {
     image: require("../assets/img/logo-react.png"),
-    text: "React",
+    text: "Confidence",
   },
   {
     image: require("../assets/img/logo-swift.png"),
-    text: "Swift",
+    text: "Self-esteem",
   },
   {
     image: require("../assets/img/logo-sketch.png"),
-    text: "Sketch",
+    text: "Sleep",
+  },
+  {
+    image: require("../assets/img/logo-sketch.png"),
+    text: "Relaxation",
+  },
+  {
+    image: require("../assets/img/logo-sketch.png"),
+    text: "Stress",
+  },
+  {
+    image: require("../assets/img/logo-sketch.png"),
+    text: "Anxiety",
+  },
+  {
+    image: require("../assets/img/logo-sketch.png"),
+    text: "Meditation",
   },
 ]
 

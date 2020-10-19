@@ -62,6 +62,7 @@ export const UserStoreModel = types
       self.user.action = action
     },
   }))
+// Fetching data from Contentful
 
 /**
   * Un-comment the following to omit model attributes from your snapshots (and from async storage).

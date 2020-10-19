@@ -1,4 +1,5 @@
 import { Api } from "../services/api"
+import DefaultClient from "apollo-boost"
 
 let ReactotronDev = undefined
 if (__DEV__) {
@@ -18,6 +19,8 @@ export class Environment {
       this.reactotron = new ReactotronDev()
     }
     this.api = new Api()
+
+    this.graphql = new DefaultClient()
   }
 
   async setup() {
@@ -37,4 +40,9 @@ export class Environment {
    * Our api.
    */
   api: Api
+
+  /**
+   * Our graphql client.
+   */
+  graphql: DefaultClient<any>
 }

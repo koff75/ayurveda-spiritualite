@@ -38,37 +38,40 @@ import { position } from "@shopify/restyle"
 
 const CardsQuery = gql`
   {
-    cardsCollection {
+    meditateCourseCollection {
       items {
         title
+        description
         subtitle
-        image {
-          title
-          description
-          contentType
-          fileName
-          size
+        cover {
           url
+          size
           width
           height
-        }
-        subtitle
-        caption
-        logo {
-          title
-          description
           contentType
-          fileName
-          size
-          url
-          width
-          height
         }
-        content
+        author {
+          name
+          photo {
+            url
+            size
+            width
+            height
+          }
+        }
+        lessonsCollection {
+          items {
+            title
+            duration
+            permission
+            videoLink
+          }
+        }
       }
     }
   }
 `
+
 const { width, height } = Dimensions.get("window")
 
 export const Home = observer(function Home() {
@@ -205,11 +208,11 @@ export const Home = observer(function Home() {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              style={{ paddingBottom: 30 }}
+              style={{ paddingBottom: 0 }}
             >
               <Box flexDirection="row" style={{ paddingLeft: 5 }}>
                 {data &&
-                  data.cardsCollection.items.map((item, index) => (
+                  data.meditateCourseCollection.items.map((item, index) => (
                     <TouchableOpacity
                       key={index}
                       activeOpacity={0.6}
@@ -221,11 +224,11 @@ export const Home = observer(function Home() {
                     >
                       <Card
                         title={item.title}
-                        caption={item.caption}
-                        subtitle={item.subtitle}
-                        image={item.image}
-                        logo={item.logo}
-                        author={item.author}
+                        caption={item.subtitle}
+                        subtitle={item.author.name}
+                        image={item.cover}
+                        logo={item.author.photo}
+                        author={item.author.name}
                       />
                     </TouchableOpacity>
                   ))}
@@ -237,6 +240,7 @@ export const Home = observer(function Home() {
               textTransform="uppercase"
               marginLeft="ml"
               marginTop="ml"
+              marginBottom="s"
               style={{ color: "#b8b3ce" }}
             >
               Popular Courses

@@ -39,7 +39,7 @@ export default function Card(props) {
       >
         <Image
           source={props.image}
-          style={{ width: width, height: height, position: "absolute", top: 0, left: 0 }}
+          style={{ width: "100%", height: "100%", position: "absolute", top: 0, left: 0 }}
         />
         <Text variant="title2" color="background" marginTop="ml" marginLeft="ml" width={170}>
           {props.title}
@@ -47,7 +47,7 @@ export default function Card(props) {
       </Box>
       {/* Wrapper */}
       <Box height={80} flexDirection="row" alignItems="center" paddingLeft="ml">
-        <Image source={props.logo} style={{ width: 44, height: 44 }} />
+        <Image source={props.logo} style={{ width: 44, height: 44, borderRadius: 20 }} />
         <Box style={{ marginLeft: 10 }}>
           <Text variant="body" color="darkBlue" fontSize={20}>
             {props.caption}

@@ -39,11 +39,18 @@ enableScreens()
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
 // Appollo client:
+// const client = new ApolloClient({
+//   uri: "https://graphql.contentful.com/content/v1/spaces/ldcl3ayg0mhx",
+//   credentials: "same-origin",
+//   headers: {
+//     Authorization: `Bearer 93f3808c25c1f5bdb95476ca8576c6eaa12b5587efb956efb242ceead7cb3840`,
+//   },
+// })
 const client = new ApolloClient({
-  uri: "https://graphql.contentful.com/content/v1/spaces/ldcl3ayg0mhx",
+  uri: "https://graphql.contentful.com/content/v1/spaces/dv4bj71jt8p6",
   credentials: "same-origin",
   headers: {
-    Authorization: `Bearer 93f3808c25c1f5bdb95476ca8576c6eaa12b5587efb956efb242ceead7cb3840`,
+    Authorization: `Bearer LqPfb6DHlCT1uM4iheAwaxBh3SZg58bT5bxAY-iGdTE`,
   },
 })
 
