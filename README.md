@@ -1,4 +1,4 @@
-# Ayurveda app
+# React-Native app
 
 Coming soon ...
 
