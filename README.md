@@ -2,6 +2,8 @@
 
 Coming soon ...
 
+![test image size](/appDelphine.png)
+
 ### Technologies :
 
 - React-native with Expo
